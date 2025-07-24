@@ -1,8 +1,9 @@
+using projectO.api.Data;
 using projectO.api.EndPoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+builder.Services.AddSqlite<BlogDbContext>(builder.Configuration.GetConnectionString("BlogInfo"));
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
