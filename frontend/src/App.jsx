@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import './App.css'
+import Header from "./Shared/Header"
+import Footer from './Shared/Footer'
 
 function App() {
 
@@ -15,7 +16,9 @@ function App() {
   },[])
   return (
     <>
-      
+
+      <Header/>
+      <Footer/>
     </>
   )
 }
