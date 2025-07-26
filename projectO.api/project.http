@@ -1,12 +1,3 @@
-GET http://localhost:5064/games
 
-###
-POST http://localhost:5064/games
-Content-Type: application/json
-
-{
-    "name":"pubg",
-    "genre":"Adult",
-    "releaseDate": "2011-10-19"
-}
+GET http://localhost:5064/getposts
 

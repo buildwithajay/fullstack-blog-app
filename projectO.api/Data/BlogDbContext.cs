@@ -10,7 +10,15 @@ namespace projectO.api.Data
         {
 
         }
-        DbSet<Blog> blogs { get; set; }
+       public DbSet<Blog> blogs { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Blog>().HasData(
+                new { Id = 1, Title = "Infaltion", Content="The job market is clutter right now i dont know why" }
+            
+            );
+        }
 }
 }
 
