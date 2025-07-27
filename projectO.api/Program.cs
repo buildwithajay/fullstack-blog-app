@@ -22,4 +22,5 @@ app.MapGet("/blogs",async (BlogDbContext db) =>
 });
 
 
+
 app.Run();
