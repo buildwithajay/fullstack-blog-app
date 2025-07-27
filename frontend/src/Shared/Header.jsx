@@ -1,8 +1,12 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 
 const Header = () => {
   const navigate = useNavigate();
+    const linkClass = ({ isActive }) =>
+    isActive
+      ? "text-purple-400 border-b-2 border-purple-500 pb-1"
+      : "text-white hover:text-purple-400";
 
   return (
     <div className=' bg-slate-800 flex p-4 justify-between '>
@@ -12,10 +16,10 @@ const Header = () => {
      </div>
        <div>
         <ul className='flex gap-5 text-white p-2'>
-      <Link to={"/"}>Home</Link>
-      <Link to={"/blog"}>Blog</Link>
-      <Link to={"/about"}>About</Link>
-      <Link to={"/contact"}>Contact</Link>
+      <NavLink to={"/"} className={linkClass}>Home</NavLink>
+      <NavLink to={"/blog"} className={linkClass}>Blog</NavLink>
+      <NavLink to={"/about"} className={linkClass}>About</NavLink>
+      <NavLink to={"/contact"} className={linkClass}>Contact</NavLink>
     </ul>
        </div>
        <div>
