@@ -31,5 +31,10 @@ namespace projectO.api.Migrations
             migrationBuilder.DropTable(
                 name: "blogs");
         }
+
+        internal object Find(Func<object, bool> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
