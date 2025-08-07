@@ -1,0 +1,37 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using backend.Data;
+using backend.Interfaces;
+using backend.Model;
+using Microsoft.EntityFrameworkCore;
+
+namespace backend.Repository
+{
+    public class BlogRepository : IBlogRepository
+    {
+        private readonly ApplicationDbContext _context;
+        public BlogRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+        public async Task<Blog> CreateAsync(Blog blog)
+        {
+            await _context.Blogs.AddAsync(blog);
+            await _context.SaveChangesAsync();
+            return blog;
+        }
+
+        public async Task<List<Blog>> GetAllAsync()
+        {
+           return await _context.Blogs.ToListAsync();
+           
+        }
+
+        public Task<Blog?> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

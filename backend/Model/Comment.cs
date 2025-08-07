@@ -7,10 +7,10 @@ namespace backend.Model
 {
     public class Comment
     {
-        public string Id { get; set; }
-        public string Content { get; set; }
-        public string BlogId { get; set; }
-        public Blog Blog{ get; set; }
+        public int Id { get; set; }
+        public string? Content { get; set; }
+        public string? BlogId { get; set; }
+        public Blog? Blog{ get; set; }
     }
 
     
