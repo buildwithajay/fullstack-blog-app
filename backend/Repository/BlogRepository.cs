@@ -29,9 +29,10 @@ namespace backend.Repository
            
         }
 
-        public Task<Blog?> GetById(int id)
+        public async Task<Blog?> GetById(int id)
         {
-            throw new NotImplementedException();
+            var blog = await _context.Blogs.FirstOrDefaultAsync(x => x.Id == id);
+            return blog;
         }
     }
 }

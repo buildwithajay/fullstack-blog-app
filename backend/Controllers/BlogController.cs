@@ -41,5 +41,20 @@ namespace backend.Controllers
             await _blogRepo.CreateAsync(blogs);
             return Ok();
         }
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("cannot connect to db");
+            }
+            var blogs = await _blogRepo.GetById(id);
+            if (blogs == null)
+            {
+                return NotFound("blog not found");
+            }
+            return Ok(blogs.ToBlogDto());
+        }
     }
 }
