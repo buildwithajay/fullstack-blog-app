@@ -9,5 +9,6 @@ namespace backend.DTO.Blogs
     {
         public string? Title { get; set; }
         public string? Content { get; set; }
+        public string? Genre { get; set; }
     }
 }

@@ -3172,8 +3172,10 @@
   "projectFileDependencyGroups": {
     "net9.0": [
       "Microsoft.AspNetCore.OpenApi >= 9.0.7",
+      "Microsoft.EntityFrameworkCore >= 9.0.8",
       "Microsoft.EntityFrameworkCore.Design >= 9.0.8",
       "Microsoft.EntityFrameworkCore.Sqlite >= 9.0.8",
+      "Microsoft.EntityFrameworkCore.Sqlite.Core >= 9.0.8",
       "Microsoft.EntityFrameworkCore.Tools >= 9.0.8"
     ]
   },
@@ -3224,11 +3226,19 @@
             "target": "Package",
             "version": "[9.0.7, )"
           },
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[9.0.8, )"
+          },
           "Microsoft.EntityFrameworkCore.Design": {
             "target": "Package",
             "version": "[9.0.8, )"
           },
           "Microsoft.EntityFrameworkCore.Sqlite": {
+            "target": "Package",
+            "version": "[9.0.8, )"
+          },
+          "Microsoft.EntityFrameworkCore.Sqlite.Core": {
             "target": "Package",
             "version": "[9.0.8, )"
           },

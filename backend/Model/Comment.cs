@@ -9,7 +9,7 @@ namespace backend.Model
     {
         public int Id { get; set; }
         public string? Content { get; set; }
-        public string? BlogId { get; set; }
+        public int BlogId { get; set; }
         public Blog? Blog{ get; set; }
     }
 
