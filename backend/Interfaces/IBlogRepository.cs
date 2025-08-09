@@ -11,6 +11,7 @@ namespace backend.Interfaces
         Task<List<Blog>> GetAllAsync();
         Task<Blog> CreateAsync(Blog blog);
         Task<Blog?> GetById(int id);
+        Task<Blog?> DeleteAsync(int id);
 
     }
 }

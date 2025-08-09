@@ -56,5 +56,21 @@ namespace backend.Controllers
             }
             return Ok(blogs.ToBlogDto());
         }
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("cannot access");
+            }
+            var blog = await _blogRepo.DeleteAsync(id);
+            if (blog == null)
+            {
+                return NotFound("blog doesnot exist");
+
+            }
+            return NoContent();
+        }
     }
 }
