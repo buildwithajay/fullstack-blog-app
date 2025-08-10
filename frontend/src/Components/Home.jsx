@@ -38,8 +38,8 @@ const Home = () => {
   return (
     <div>
       {blogData.map((items)=>(
-          <div key={items.id}>
-            <h2>{items.title}</h2>
+          <div key={items.id} >
+            <h2 className='font-semibold '>{items.title}</h2>
           <p>{items.content}</p>
           <button onClick={()=>{handleClick(items.id)}}>Delete</button>
           </div>
