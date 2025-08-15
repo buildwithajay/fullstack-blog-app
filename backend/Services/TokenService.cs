@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using backend.Interfaces;
 using backend.Model;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Services
+namespace Service
 {
     public class TokenService : ITokenService
+
     {
         private readonly IConfiguration _config;
         private readonly SymmetricSecurityKey _key;
-        public TokenService(IConfiguration config, SymmetricSecurityKey key)
+        public TokenService(IConfiguration config)
         {
             _config = config;
-            _key = key;
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigningKey"]));
+            
         }
         public string Create(AppUser appUser)
         {
@@ -30,7 +33,6 @@ namespace Services
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = creds,
