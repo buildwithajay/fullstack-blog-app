@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { isAuthenticate, removeAuthToken } from '../Auth/Auth';
 
 const Header = () => {
   const navigate = useNavigate();
+  const [logging, setLogging]= useState(false);
+  const handleClick =(e)=>{
+    e.preventDefault()
+    if(!isAuthenticate()){
+      setLogging(false)
+    }else{
+      setLogging(true)
+      removeAuthToken();
+      navigate("/login")
+    }
+  }
     const linkClass = ({ isActive }) =>
     isActive
       ? "text-purple-400 border-b-2 border-purple-500 pb-1"
@@ -23,7 +35,7 @@ const Header = () => {
     </ul>
        </div>
        <div>
-        <button className='text-white bg-blue-700 rounded-sm p-2 mr-4'>Login</button>
+        <NavLink to={"/login"} className='text-white bg-blue-700 rounded-sm p-2 mr-4 cursor-pointer' onClick={handleClick}>{isAuthenticate()?"Sign out" : "SignIn"}</NavLink>
        </div>
     
 

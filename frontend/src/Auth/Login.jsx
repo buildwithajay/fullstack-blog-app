@@ -25,7 +25,6 @@ const Login = () => {
         setError('');
         setIsLoading(true);
 
-        // Basic validation
         if (!username.trim() || !password.trim()) {
             setError('Email and password are required');
             setIsLoading(false);
@@ -48,10 +47,9 @@ const Login = () => {
                 const data = await response.json();
                 console.log('Login successful:', data);
                 
-                // Store the JWT token
                 if (data.token) {
                     setAuthToken(data.token);
-                    navigate("/create"); // Navigate to protected route
+                    navigate("/create"); 
                 } else {
                     setError('Login successful but no token received');
                 }
