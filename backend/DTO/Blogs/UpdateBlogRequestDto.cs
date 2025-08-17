@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace backend.DTO.Blogs
 {
-    public class CreateBlogDto
+    public class UpdateBlogRequestDto
     {
         [Required]
         [MaxLength(30)]

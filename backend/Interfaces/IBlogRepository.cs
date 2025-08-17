@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.DTO.Blogs;
 using backend.Model;
 
 namespace backend.Interfaces
@@ -12,6 +13,7 @@ namespace backend.Interfaces
         Task<Blog> CreateAsync(Blog blog);
         Task<Blog?> GetById(int id);
         Task<Blog?> DeleteAsync(int id);
+        Task<Blog?> UpdateAsync(int id, UpdateBlogRequestDto updateBlogRequestDto);
 
     }
 }

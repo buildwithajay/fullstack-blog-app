@@ -72,5 +72,19 @@ namespace backend.Controllers
             }
             return NoContent();
         }
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, UpdateBlogRequestDto updateBlogRequestDto)
+
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("cannot access");
+
+            }
+            var blog = await _blogRepo.UpdateAsync(id, updateBlogRequestDto);
+            if (blog == null) return NotFound();
+            return Ok(blog.ToBlogDto());
+        }
     }
 }
