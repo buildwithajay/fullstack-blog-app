@@ -49,7 +49,7 @@ const Login = () => {
                 
                 if (data.token) {
                     setAuthToken(data.token);
-                    navigate("/create"); 
+                    navigate("/dashboard"); 
                 } else {
                     setError('Login successful but no token received');
                 }

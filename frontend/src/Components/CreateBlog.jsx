@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { RiArrowGoBackFill } from "react-icons/ri";
 
 const CreateBlog = () => {
- 
   let [title, setTitle]= useState();
   let [content, setContent]= useState();
   let [genre, setGenre]= useState();
@@ -34,11 +34,23 @@ const CreateBlog = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 relative">
+      
+      {/* 🔙 Back Button */}
+      <button
+        onClick={() => navigate("/dashboard")}
+        className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 
+                   bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium 
+                   rounded-full shadow-md hover:shadow-xl hover:scale-105 
+                   transition-all duration-300 ease-in-out"
+      >
+        <RiArrowGoBackFill/> Back to Dashboard
+      </button>
+
       <form 
         onSubmit={handleClick} 
         method='post' 
-        className="bg-white shadow-lg rounded-2xl w-full max-w-lg p-6 space-y-5"
+        className="bg-white shadow-lg rounded-2xl w-full max-w-lg p-6 space-y-5 animate-fadeIn"
       >
         <h2 className="text-2xl font-bold text-center text-gray-800">
           Create a Blog
@@ -78,7 +90,8 @@ const CreateBlog = () => {
          
         <button 
           type="submit" 
-          className="w-full bg-blue-600 text-white font-semibold py-2 rounded-md hover:bg-blue-700 transition duration-200"
+          className="w-full bg-blue-600 text-white font-semibold py-2 rounded-md 
+                     hover:bg-blue-700 transition duration-200"
         >
           Submit
         </button>
@@ -87,4 +100,4 @@ const CreateBlog = () => {
   )
 }
 
-export default CreateBlog
+export default CreateBlog;

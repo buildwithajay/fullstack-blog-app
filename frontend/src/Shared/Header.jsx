@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { isAuthenticate, removeAuthToken } from '../Auth/Auth';
 
 const Header = () => {
@@ -7,13 +7,15 @@ const Header = () => {
   const [logging, setLogging]= useState(false);
   const handleClick =(e)=>{
     e.preventDefault()
-    if(!isAuthenticate()){
-      setLogging(false)
-    }else{
-      setLogging(true)
-      removeAuthToken();
+    
       navigate("/login")
-    }
+    
+  }
+  const handleSignOut =(e)=>{
+      e.preventDefault()
+        removeAuthToken();
+        navigate("/login")
+
   }
     const linkClass = ({ isActive }) =>
     isActive
@@ -35,7 +37,7 @@ const Header = () => {
     </ul>
        </div>
        <div>
-        <NavLink to={"/login"} className='text-white bg-blue-700 rounded-sm p-2 mr-4 cursor-pointer' onClick={handleClick}>{isAuthenticate()?"Sign out" : "SignIn"}</NavLink>
+        <NavLink to={"/login"} className='text-white bg-blue-700 rounded-sm p-2 mr-4 cursor-pointer' >{isAuthenticate()?<span onClick={(e)=>handleSignOut(e)}>Signout</span> : <span onClick={(e)=>handleClick(e)}>Login</span>}</NavLink>
        </div>
     
 
