@@ -12,7 +12,7 @@ namespace backend.DTO.Blogs
         public string? Title { get; set; } = string.Empty;
         public string? Content { get; set; } = string.Empty;
         public string? Genre { get; set; } = string.Empty;
-        public DateTime CreatedAT { get; set; }
+        public DateTime CreatedAT { get; set; } = DateTime.Now;
         public ICollection<CommentDto>? comments { get; set; }
     }
 }

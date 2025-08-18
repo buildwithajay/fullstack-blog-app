@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-
+import { RiArrowGoBackFill } from "react-icons/ri";
 const Update = () => {
 
     let[isLoading, setIsLoading]= useState(true)
@@ -62,7 +62,15 @@ const Update = () => {
         <h2 className="text-2xl font-bold text-center text-gray-800">
           Update a Blog
         </h2>
-     
+        <button
+             onClick={() => navigate("/dashboard")}
+             className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 
+                        bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium 
+                        rounded-full shadow-md hover:shadow-xl hover:scale-105 
+                        transition-all duration-300 ease-in-out"
+           >
+             <RiArrowGoBackFill/> Back to Dashboard
+           </button>  
         <div className="flex flex-col gap-2">
           <label htmlFor="title" className="font-semibold text-gray-700">Title</label>
           <input 
