@@ -7,6 +7,7 @@ using backend.Data;
 using backend.DTO.Blogs;
 using backend.Interfaces;
 using backend.Mapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -33,13 +34,14 @@ namespace backend.Controllers
             return Ok(blogDto);
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateBlogDto createBlog)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
             var blogs = createBlog.ToBlogFromCreateDto();
             await _blogRepo.CreateAsync(blogs);
-            return Ok();
+            return Ok(blogs.ToBlogDto());
         }
         [HttpGet]
         [Route("{id}")]
@@ -58,6 +60,7 @@ namespace backend.Controllers
         }
         [HttpDelete]
         [Route("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -74,6 +77,7 @@ namespace backend.Controllers
         }
         [HttpPut]
         [Route("{id}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, UpdateBlogRequestDto updateBlogRequestDto)
 
         {

@@ -54,7 +54,7 @@ builder.Services.AddAuthentication(options =>
         )
     }
 );
-
+builder.Services.AddAuthorization();
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

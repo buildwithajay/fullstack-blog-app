@@ -11,6 +11,8 @@ import CreateBlog from './Components/CreateBlog';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
 import ProtectedRoute from './Pages/ProtectedRoute';
+import Dashboard from './Pages/Dashboard';
+import Update from './Components/Update';
 
 
 
@@ -29,8 +31,13 @@ function App() {
         <Route path="/" element={<Home />} />
          <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
+          
           <Route path='/' element={<ProtectedRoute/>}>
             <Route path='create' element={<CreateBlog/>}/>
+            <Route path='dashboard' element={<Dashboard/>}/>
+            <Route path='/updateblog/:id' element={<Update/>}/>
+
+
           </Route>
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
