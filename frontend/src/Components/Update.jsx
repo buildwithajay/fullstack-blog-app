@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { RiArrowGoBackFill } from "react-icons/ri";
+import { getAuthToken } from '../Auth/Auth';
 const Update = () => {
 
     let[isLoading, setIsLoading]= useState(true)
@@ -28,7 +29,8 @@ const Update = () => {
         {
           method:"PUT",
           headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            "Authorization":`Bearer ${getAuthToken}`
           },
           body:JSON.stringify({
             "title":data.title,

@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { RiArrowGoBackFill } from "react-icons/ri";
+import { getAuthToken } from '../Auth/Auth';
 
 const CreateBlog = () => {
-  let [title, setTitle]= useState();
-  let [content, setContent]= useState();
-  let [genre, setGenre]= useState();
+  let [title, setTitle]= useState("");
+  let [content, setContent]= useState("");
+  let [genre, setGenre]= useState("");
   let navigate = useNavigate();
 
   const handleClick=async (e)=>{
@@ -14,16 +15,19 @@ const CreateBlog = () => {
       let post = await fetch("http://localhost:5274/blog", {
         method: "POST",
         headers:{
-          "Content-Type":"application/json"
+          "Content-Type":"application/json",
+          "Authorization": `Bearer ${getAuthToken()}`
         },
         body: JSON.stringify({
           "title": title,
           "content":content,
-          "genre":genre
+          "genre":genre, 
+        
         })
       })
+      let data = await post.json()
       if(post.ok){
-        console.log("post created");
+        console.log("post created", data);
         navigate("/dashboard")
       }else{
         console.log("failed to create post")
@@ -36,7 +40,7 @@ const CreateBlog = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 relative">
       
-      {/* 🔙 Back Button */}
+   
       <button
         onClick={() => navigate("/dashboard")}
         className="absolute top-6 left-6 flex items-center gap-2 px-4 py-2 
