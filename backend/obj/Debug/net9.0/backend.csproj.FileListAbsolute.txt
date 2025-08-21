@@ -170,3 +170,4 @@
 /Users/ajaypaudel/Programming/DotnetProject/backend/obj/Debug/net9.0/backend.pdb
 /Users/ajaypaudel/Programming/DotnetProject/backend/obj/Debug/net9.0/backend.genruntimeconfig.cache
 /Users/ajaypaudel/Programming/DotnetProject/backend/obj/Debug/net9.0/ref/backend.dll
+/Users/ajaypaudel/Programming/DotnetProject/backend/bin/Debug/net9.0/Scalar.AspNetCore.dll
