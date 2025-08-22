@@ -19,6 +19,7 @@ namespace backend.Mapper
                 Content = blogDto.Content,
                 Genre = blogDto.Genre,
                 CreatedAT = blogDto.CreatedAT,
+                ImageUrl = blogDto.ImageUrl,
                 comments = blogDto.comments?.Select(s => s.ToCommentDto()).ToList()
 
 
