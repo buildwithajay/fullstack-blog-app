@@ -30,7 +30,9 @@ namespace backend.Mapper
             {
                 Title = createBlog.Title,
                 Content = createBlog.Content,
-                Genre=createBlog.Genre
+                Genre = createBlog.Genre,
+                ImageUrl = createBlog.ImageUrl,
+                CreatedAT = createBlog.CreatedAT
             };
         }
         public static Blog ToBlogFromUpdateDto(this UpdateBlogRequestDto updateBlogRequestDto)

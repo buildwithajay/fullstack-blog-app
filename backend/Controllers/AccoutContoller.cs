@@ -34,7 +34,7 @@ namespace backend.Controllers
                 if (loginDto.UserName == null) return BadRequest("username not provided");
                 var user = await _user.Users.FirstOrDefaultAsync(x => x.UserName == loginDto.UserName.ToLower());
                 if (user == null) return Unauthorized("user invalid");
-                
+
                 var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
                 if (!result.Succeeded) return Unauthorized("username or password is incorrect");
@@ -43,8 +43,8 @@ namespace backend.Controllers
                 {
                     UserName = user.UserName,
                     Email = user.Email,
-                    Token= _token.Create(user)
-                 });
+                    Token = _token.CreateAsync(user)
+                });
             }
             catch (Exception e)
             {
@@ -81,8 +81,7 @@ namespace backend.Controllers
                         {
                             UserName = appUser.UserName,
                             Email = appUser.Email,
-                            Token = _token.Create(appUser)
-
+                            Token = _token.CreateAsync(appUser)
                         });
                     }
                     else

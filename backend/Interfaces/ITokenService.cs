@@ -8,6 +8,6 @@ namespace backend.Interfaces
 {
     public interface ITokenService
     {
-        string Create(AppUser appUser);
+        string CreateAsync(AppUser appUser);
     }
 }

@@ -7,11 +7,26 @@ const CreateBlog = () => {
   let [title, setTitle]= useState("");
   let [content, setContent]= useState("");
   let [genre, setGenre]= useState("");
+  let [image, setImage]= useState("");
   let navigate = useNavigate();
 
   const handleClick=async (e)=>{
      e.preventDefault();
     try{
+      if(!image)  return
+
+      let imageData = new FormData()
+      imageData.append('file', image)
+      imageData.append('upload_preset', "image-store")
+      imageData.append('cloud_name', "dkc0tn86f")
+
+      let postImage = await fetch("https://api.cloudinary.com/v1_1/dkc0tn86f/image/upload", {
+        method:"POST",
+        body: imageData
+      })
+      const uploadImageUrl = await postImage.json();
+      console.log(uploadImageUrl.url)
+
       let post = await fetch("http://localhost:5274/blog", {
         method: "POST",
         headers:{
@@ -89,6 +104,15 @@ const CreateBlog = () => {
             placeholder="e.g. Tech, Travel..." 
             className="border rounded-md p-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={(e)=>setGenre(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="image" className="font-semibold text-gray-700">Image</label>
+          <input 
+            type="file" 
+            placeholder="e.g. Tech, Travel..." 
+            className="border rounded-md p-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={(e)=>setImage(e.target.files[0])}
           />
         </div>
          

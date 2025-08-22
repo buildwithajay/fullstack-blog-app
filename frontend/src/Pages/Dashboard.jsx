@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { getAuthToken } from "../Auth/Auth";
 const Dashboard = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,6 +19,9 @@ const Dashboard = () => {
     try {
       let removeBlog = await fetch(`http://localhost:5274/blog/${id}`, {
         method: "DELETE",
+        headers:{
+          "Authorization": `Bearer ${getAuthToken()}`
+        }
       });
       if (removeBlog.ok) {
         console.log("blog deleted successfully");

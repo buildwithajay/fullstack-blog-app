@@ -15,8 +15,11 @@ namespace backend.DTO.Blogs
         [Required]
         [MinLength(5)]
         public string? Content { get; set; }
+        public string? ImageUrl { get; set; }
+        public DateTime CreatedAT { get; set; } = DateTime.UtcNow;
         [Required]
-        
+
         public string? Genre { get; set; }
+        
     }
 }
