@@ -90,5 +90,13 @@ namespace backend.Controllers
             if (blog == null) return NotFound();
             return Ok(blog.ToBlogDto());
         }
+        [HttpPost("{id}/addview")]
+        public async Task<IActionResult> AddView([FromRoute] int id)
+        {
+            if (!ModelState.IsValid) return BadRequest("cannot access");
+            var blog = await _blogRepo.GetViewAsync(id);
+            if (blog is null) return NotFound();
+            return Ok();
+        }
     }
 }

@@ -15,5 +15,6 @@ namespace backend.Interfaces
         Task<Blog?> DeleteAsync(int id);
         Task<Blog?> UpdateAsync(int id, UpdateBlogRequestDto updateBlogRequestDto);
 
+        Task<Blog?> GetViewAsync(int id);
     }
 }

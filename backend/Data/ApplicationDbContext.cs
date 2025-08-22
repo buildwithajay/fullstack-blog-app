@@ -23,7 +23,8 @@ namespace backend.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-                List<IdentityRole> roles = new List<IdentityRole>
+
+            List<IdentityRole> roles = new List<IdentityRole>
         {
             new IdentityRole
                 {
@@ -39,6 +40,17 @@ namespace backend.Data
                 }
         };
             builder.Entity<IdentityRole>().HasData(roles);
+             builder.Entity<Blog>()
+                .HasOne(p => p.AppUser)
+                .WithMany(u => u.Blogs)
+                .HasForeignKey(b => b.AppUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Comment>()
+                .HasOne(b => b.Blog)
+                .WithMany(c => c.comments)
+                .HasForeignKey(b => b.BlogId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     
       

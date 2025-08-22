@@ -49,6 +49,18 @@ namespace backend.Repository
             return blog;
         }
 
+        public async Task<Blog?> GetViewAsync(int id)
+        {
+            var blog = await _context.Blogs.FindAsync(id);
+            if (blog is null)
+            {
+                return null;
+            }
+            blog.Views += 1;
+            await _context.SaveChangesAsync();
+            return blog;
+        }
+
         public async Task<Blog?> UpdateAsync(int id, UpdateBlogRequestDto updateBlogRequestDto)
         {
             var blog = await _context.Blogs.FirstOrDefaultAsync(x => x.Id == id);
