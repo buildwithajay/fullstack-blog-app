@@ -168,9 +168,11 @@ const Home = () => {
                       {item.genre || 'Article'}
                     </span>
                   </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <BookOpen className={`w-16 h-16 text-white/80 transform transition-transform duration-300 ${hoveredCard === item.id ? 'scale-125 rotate-12' : ''}`} />
-                  </div>
+
+                  <img src={item.imageUrl} alt="" />
+                  {/* <div className="absolute inset-0 flex items-center justify-center">
+                      
+                  </div> */}
                 </div>
                 
                 <div className="p-6">

@@ -10,7 +10,14 @@ const Blog = () => {
       const fetchBlog=async()=>{
         const res = await fetch("http://localhost:5274/blog")
         const data = await res.json()
-        setBlogData(data);
+
+        const sortedData = data.sort((a, b) => {
+        const dateA = new Date(a.createdAT);
+        const dateB = new Date(b.createdAT);
+        return dateB - dateA; 
+      });
+
+        setBlogData(sortedData);
         setIsLoading(false)
       }
       fetchBlog()
@@ -43,9 +50,10 @@ if(isLoading)
                       {item.genre || 'Article'}
                     </span>
                   </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
+                   <img src={item.imageUrl} alt="" />
+                  {/* <div className="absolute inset-0 flex items-center justify-center">
                     <BookOpen className={`w-16 h-16 text-white/80 transform transition-transform duration-300 ${hoveredCard === item.id ? 'scale-125 rotate-12' : ''}`} />
-                  </div>
+                  </div> */}
                 </div>
                 
                 <div className="p-6">
@@ -72,7 +80,7 @@ if(isLoading)
                   
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-gray-700">
-                      By {item.author || 'Anonymous'}
+                      By {item.appUser.fullName || 'Anonymous'}
                     </span>
                     <button className="flex items-center text-purple-600 hover:text-purple-700 font-medium text-sm group-hover:translate-x-1 transition-transform">
                       Read More

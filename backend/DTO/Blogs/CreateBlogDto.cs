@@ -9,7 +9,7 @@ namespace backend.DTO.Blogs
     public class CreateBlogDto
     {
         [Required]
-        [MaxLength(30)]
+        [MaxLength(60)]
         [MinLength(4)]
         public string? Title { get; set; }
         [Required]

@@ -25,7 +25,7 @@ const CreateBlog = () => {
         body: imageData
       })
       const uploadImageUrl = await postImage.json();
-      console.log(uploadImageUrl.url)
+      console.log(uploadImageUrl.secure_url)
 
       let post = await fetch("http://localhost:5274/blog", {
         method: "POST",
@@ -37,6 +37,8 @@ const CreateBlog = () => {
           "title": title,
           "content":content,
           "genre":genre, 
+          "imageUrl":uploadImageUrl.secure_url,
+        
         
         })
       })
