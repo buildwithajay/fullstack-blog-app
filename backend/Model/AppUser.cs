@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.DTO.Account;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.Model
@@ -10,6 +11,11 @@ namespace backend.Model
     {
 
         public string FullName { get; set; } = string.Empty;
-        public ICollection<Blog>? Blogs { get; set; } 
+        public ICollection<Blog>? Blogs { get; set; }
+
+        public static implicit operator AppUser?(UserDto? v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

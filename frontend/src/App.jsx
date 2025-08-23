@@ -13,7 +13,7 @@ import Register from './Auth/Register';
 import ProtectedRoute from './Pages/ProtectedRoute';
 import Dashboard from './Pages/Dashboard';
 import Update from './Components/Update';
-
+import BlogDetails from './Pages/BlogDetails';
 
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
         <Route path="/" element={<Home />} />
          <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
-          
+          <Route path='/blogdetails/:id' element={<BlogDetails/>}/>
           <Route path='/' element={<ProtectedRoute/>}>
             <Route path='create' element={<CreateBlog/>}/>
             <Route path='dashboard' element={<Dashboard/>}/>

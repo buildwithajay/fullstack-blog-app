@@ -12,7 +12,7 @@ namespace backend.Model
         public string? Content { get; set; } = string.Empty;
         public string? ImageUrl { get; set; } = string.Empty;
         public string? Genre { get; set; } = string.Empty;
-        public int? ReadTime { get; set; }
+        public int ReadTime { get; set; }
         public int Views { get; set; }
         public DateTime CreatedAT { get; set; }
 

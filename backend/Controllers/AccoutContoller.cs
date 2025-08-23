@@ -65,7 +65,8 @@ namespace backend.Controllers
                 var appUser = new AppUser
                 {
                     UserName = registerDto.UserName,
-                    Email = registerDto.Email
+                    Email = registerDto.Email,
+                    FullName = registerDto.FullName!
                 };
                 if (string.IsNullOrEmpty(registerDto.Password))
                 {
@@ -79,6 +80,7 @@ namespace backend.Controllers
                     {
                         return Ok(new NewUserDto
                         {
+                            FullName= appUser.FullName,
                             UserName = appUser.UserName,
                             Email = appUser.Email,
                             Token = _token.CreateAsync(appUser)

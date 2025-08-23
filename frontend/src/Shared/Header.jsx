@@ -57,7 +57,7 @@ const Header = () => {
             <nav className='hidden md:block'>
               <ul className='flex items-center space-x-8'>
                 <li><NavLink to={"/"} className={linkClass}>Home</NavLink></li>
-                <li><NavLink to={"/blog"} className={linkClass}>Blog</NavLink></li>
+                <li><NavLink to={"/blogs"} className={linkClass}>Blog</NavLink></li>
                 <li><NavLink to={"/about"} className={linkClass}>About</NavLink></li>
                 <li><NavLink to={"/contact"} className={linkClass}>Contact</NavLink></li>
               </ul>

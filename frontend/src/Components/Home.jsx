@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { ChevronRight, BookOpen, Users, TrendingUp, Star, ArrowRight, Clock, Eye, Heart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [blogData, setBlogData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoveredCard, setHoveredCard] = useState(null);
-
+  let navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -49,6 +50,13 @@ const Home = () => {
     };
     fetchData();
   }, []);
+
+  const handleClick =(id)=>{
+      navigate(`/blogdetails/${id}`)
+  }
+  const handleArticle=()=>{
+    navigate('/blogs')
+  }
 
   if (loading) {
     return (
@@ -144,6 +152,7 @@ const Home = () => {
             {blogData.map((item, index) => (
               <article 
                 key={item.id}
+                onClick={()=>handleClick(item.id)}
                 className="group bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl border border-white/20 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500"
                 onMouseEnter={() => setHoveredCard(item.id)}
                 onMouseLeave={() => setHoveredCard(null)}
@@ -201,7 +210,7 @@ const Home = () => {
           </div>
 
           <div className="text-center mt-12">
-            <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center mx-auto">
+            <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center mx-auto" onClick={handleArticle} >
               View All Articles
               <ArrowRight className="ml-2 w-5 h-5" />
             </button>

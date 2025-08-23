@@ -17,6 +17,7 @@ namespace backend.DTO.Blogs
         public string? Content { get; set; }
         public string? ImageUrl { get; set; }
         [Required]
+    
         public int ReadTime { get; set; }
         public DateTime CreatedAT { get; set; } = DateTime.UtcNow;
         [Required]

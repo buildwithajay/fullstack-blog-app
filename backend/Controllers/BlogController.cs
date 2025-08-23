@@ -7,7 +7,9 @@ using backend.Data;
 using backend.DTO.Blogs;
 using backend.Interfaces;
 using backend.Mapper;
+using backend.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -18,9 +20,11 @@ namespace backend.Controllers
     public class BlogController : ControllerBase
     {
         private readonly IBlogRepository _blogRepo;
-        public BlogController(IBlogRepository blogRepo)
+        private readonly UserManager<AppUser> _userManager;
+        public BlogController(IBlogRepository blogRepo, UserManager<AppUser> userManager)
         {
             _blogRepo = blogRepo;
+            _userManager = userManager;
         }
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -39,7 +43,16 @@ namespace backend.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest();
+
+            var username = User.Identity?.Name;
+            var appUser = await _userManager.FindByNameAsync(username!);
+            if (appUser is null)
+                return Unauthorized("unauthorize");
+            
             var blogs = createBlog.ToBlogFromCreateDto();
+
+            blogs.AppUser = appUser;
+            blogs.AppUserId = appUser.Id; 
             await _blogRepo.CreateAsync(blogs);
             return Ok(blogs.ToBlogDto());
         }

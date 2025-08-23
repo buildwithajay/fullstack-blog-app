@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.DTO.Account;
 using backend.DTO.Blogs;
 using backend.DTO.Comment;
 using backend.Model;
@@ -19,7 +20,17 @@ namespace backend.Mapper
                 Content = blogDto.Content,
                 Genre = blogDto.Genre,
                 CreatedAT = blogDto.CreatedAT,
+                ReadTime = blogDto.ReadTime,
+            
+                Views = blogDto.Views,
                 ImageUrl = blogDto.ImageUrl,
+                 AppUser= blogDto.AppUser == null ? null : new UserDto
+                 {
+                    Id = blogDto.AppUser.Id,
+                    FullName = blogDto.AppUser.FullName,
+                    Email = blogDto.AppUser.Email
+                 },
+             
                 comments = blogDto.comments?.Select(s => s.ToCommentDto()).ToList()
 
 
@@ -33,6 +44,8 @@ namespace backend.Mapper
                 Content = createBlog.Content,
                 Genre = createBlog.Genre,
                 ImageUrl = createBlog.ImageUrl,
+                ReadTime = createBlog.ReadTime,
+            
                 CreatedAT = createBlog.CreatedAT
             };
         }

@@ -9,6 +9,8 @@ namespace backend.DTO.Account
     public class RegisterDto
     {
         [Required]
+        public string? FullName { get; set; } = string.Empty;
+        [Required]
         public string? UserName { get; set; }
         [Required]
         [EmailAddress]
