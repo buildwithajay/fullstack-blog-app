@@ -8,6 +8,7 @@ const CreateBlog = () => {
   let [content, setContent]= useState("");
   let [genre, setGenre]= useState("");
   let [image, setImage]= useState("");
+  let [readTime, setReadTime]= useState()
   let navigate = useNavigate();
 
   const handleClick=async (e)=>{
@@ -38,6 +39,7 @@ const CreateBlog = () => {
           "content":content,
           "genre":genre, 
           "imageUrl":uploadImageUrl.secure_url,
+          "readTime":readTime
         
         
         })
@@ -115,6 +117,16 @@ const CreateBlog = () => {
             placeholder="e.g. Tech, Travel..." 
             className="border rounded-md p-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={(e)=>setImage(e.target.files[0])}
+          />
+        </div>
+         <div className="flex flex-col gap-2">
+          <label htmlFor="readtime" className="font-semibold text-gray-700">Title</label>
+          <input 
+            type="text" 
+            placeholder="Read time" 
+            required 
+            onChange={(e)=>setReadTime(e.target.value)} 
+            className="border rounded-md p-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
          

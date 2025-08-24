@@ -10,7 +10,7 @@ const Blog = () => {
       const fetchBlog=async()=>{
         const res = await fetch("http://localhost:5274/blog")
         const data = await res.json()
-
+        //sorted the blog according to the date and time
         const sortedData = data.sort((a, b) => {
         const dateA = new Date(a.createdAT);
         const dateB = new Date(b.createdAT);
