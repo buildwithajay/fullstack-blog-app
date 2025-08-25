@@ -22,7 +22,7 @@ const Home = () => {
             title: "The Future of Web Development: Trends to Watch in 2025",
             content: "Exploring the latest technologies and frameworks that are shaping the future of web development...",
             author: "Sarah Johnson",
-            readTime: "5 min read",
+            readTime: 5,
             views: "2.1k",
             genre: "Technology"
           },
@@ -187,7 +187,7 @@ const Home = () => {
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center">
                         <Clock className="w-4 h-4 mr-1" />
-                        {item.readTime || '5 min read'}
+                        {`${item.readTime|| 5 } min read`}
                       </div>
                       <div className="flex items-center">
                         <Eye className="w-4 h-4 mr-1" />

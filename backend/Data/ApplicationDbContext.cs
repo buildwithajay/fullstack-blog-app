@@ -32,12 +32,18 @@ namespace backend.Data
                     Name = "Admin",
                     NormalizedName = "ADMIN"
              },
-             new IdentityRole
+            new IdentityRole {
+                    Id="2",
+                    Name = "Manager",
+                    NormalizedName = "MANAGER"
+                    },
+              new IdentityRole
                 {
-                    Id= "2",
+                    Id= "3",
                     Name = "User",
                     NormalizedName = "USER"
-                }
+                },
+
         };
             builder.Entity<IdentityRole>().HasData(roles);
              builder.Entity<Blog>()

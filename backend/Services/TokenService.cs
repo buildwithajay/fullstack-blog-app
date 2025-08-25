@@ -17,21 +17,27 @@ namespace Service
     {
         private readonly IConfiguration _config;
         private readonly SymmetricSecurityKey _key;
+   
+
         public TokenService(IConfiguration config, UserManager<AppUser> userManager)
         {
             _config = config;
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigningKey"]!));
            
         }
-        public string CreateAsync(AppUser appUser)
+        public string CreateAsync(AppUser appUser, IList<string> roles)
         {
             var claims = new List<Claim>
             {
-               new Claim(ClaimTypes.Name, appUser.UserName),
-                new Claim(JwtRegisteredClaimNames.Email, appUser.Email),
-                new Claim(JwtRegisteredClaimNames.GivenName, appUser.UserName)
+               new Claim(ClaimTypes.Name, appUser.UserName!),
+                new Claim(JwtRegisteredClaimNames.Email, appUser.Email!),
+                new Claim(JwtRegisteredClaimNames.GivenName, appUser.UserName!)
                 
             };
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
              
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -46,5 +52,7 @@ namespace Service
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        
     }
 }

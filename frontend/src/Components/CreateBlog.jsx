@@ -120,7 +120,7 @@ const CreateBlog = () => {
           />
         </div>
          <div className="flex flex-col gap-2">
-          <label htmlFor="readtime" className="font-semibold text-gray-700">Title</label>
+          <label htmlFor="readtime" className="font-semibold text-gray-700">Read Time</label>
           <input 
             type="text" 
             placeholder="Read time" 
