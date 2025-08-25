@@ -31,7 +31,7 @@ namespace Service
             {
                new Claim(ClaimTypes.Name, appUser.UserName!),
                 new Claim(JwtRegisteredClaimNames.Email, appUser.Email!),
-                new Claim(JwtRegisteredClaimNames.GivenName, appUser.UserName!)
+                new Claim(JwtRegisteredClaimNames.GivenName, appUser.UserName!),
                 
             };
             foreach (var role in roles)
@@ -46,7 +46,8 @@ namespace Service
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = creds,
                 Issuer = _config["JWT:Issuer"],
-                Audience = _config["JWT:Audience"]
+                Audience = _config["JWT:Audience"],
+                 
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);

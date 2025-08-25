@@ -9,10 +9,12 @@ const CreateBlog = () => {
   let [genre, setGenre]= useState("");
   let [image, setImage]= useState("");
   let [readTime, setReadTime]= useState()
+  let [isLoading, setIsLoading] = useState(false)
   let navigate = useNavigate();
 
   const handleClick=async (e)=>{
      e.preventDefault();
+     setIsLoading(true)
     try{
       if(!image)  return
 
@@ -48,12 +50,17 @@ const CreateBlog = () => {
       if(post.ok){
         console.log("post created", data);
         navigate("/dashboard")
+        setIsLoading(false);
       }else{
         console.log("failed to create post")
       }
     }catch(e){
       console.log('error connecting to backend', e)
     }
+  }
+
+  if(isLoading){
+    return <h1>Blog is being checking wait for a while... </h1>
   }
 
   return (

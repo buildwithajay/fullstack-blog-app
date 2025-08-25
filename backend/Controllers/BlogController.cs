@@ -38,7 +38,7 @@ namespace backend.Controllers
             return Ok(blogDto);
         }
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Create([FromBody] CreateBlogDto createBlog)
         {
             if (!ModelState.IsValid)
@@ -73,7 +73,7 @@ namespace backend.Controllers
         }
         [HttpDelete]
         [Route("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -90,7 +90,7 @@ namespace backend.Controllers
         }
         [HttpPut]
         [Route("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Update([FromRoute] int id, UpdateBlogRequestDto updateBlogRequestDto)
 
         {

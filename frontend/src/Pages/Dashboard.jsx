@@ -11,6 +11,7 @@ const Dashboard = () => {
       let res = await data.json();
       setBlogs(res);
       setLoading(false);
+     
     };
     fetchData();
   }, [handleClick]);
@@ -25,6 +26,7 @@ const Dashboard = () => {
       });
       if (removeBlog.ok) {
         console.log("blog deleted successfully");
+   
       } else {
         console.log("blog not found");
       }
