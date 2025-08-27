@@ -12,8 +12,13 @@ const Home = () => {
       try {
         let api = await fetch("http://localhost:5274/blog");
         let data = await api.json();
-        setBlogData(data.slice(0, 6)); 
+        const sortedData = data.sort((a, b) => {
+        const dateA = new Date(a.createdAT);
+        const dateB = new Date(b.createdAT);
+        return dateB - dateA; })
+         setBlogData(sortedData.slice(0, 6)); 
         setLoading(false);
+     
       } catch (error) {
         
         setBlogData([
@@ -57,6 +62,10 @@ const Home = () => {
   const handleArticle=()=>{
     navigate('/blogs')
   }
+  const startReading = (e)=>{
+    e.preventDefault()
+    navigate("/blogs")
+  }
 
   if (loading) {
     return (
@@ -91,7 +100,7 @@ const Home = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="group bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center">
+            <button className="group bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center" onClick={(e)=>{startReading(e)}}>
               Start Reading
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff, User, Lock, LogIn, UserPlus, Mail, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { setAuthToken, isAuthenticate } from './Auth';
+import { setAuthToken, isAuthenticate, getUserFromToken } from './Auth';
 
 const api = "http://localhost:5274";
 
@@ -13,10 +13,30 @@ const Login = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    const userData =async ()=>{
+            const user =await  getUserFromToken().role;
+             console.log(user)
+            const isAdmin = user.includes("Admin")
+            const isManager = user.includes("Manager")
+
+            if(isAuthenticate() && isAdmin || isManager){
+                navigate("/dashboard")
+            }
+            else if(isAuthenticate()){
+                navigate("/blogs")
+            }
+    }
+
+    
+ 
+
     useEffect(() => {
-        if (isAuthenticate()) {
-            navigate('/create');
+        if (isAuthenticate() ) {
+            navigate('/dashboard');
         }
+        // else if(isAuthenticate()){
+        //     navigate("/blogs")
+        // }
     }, [navigate]);
 
     const handleSubmit = async (e) => {
@@ -66,6 +86,7 @@ const Login = () => {
             console.error('Login error:', error);
             setError('Network error. Please check your connection.');
         } finally {
+            userData()
             setIsLoading(false);
         }
     };

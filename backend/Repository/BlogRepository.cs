@@ -49,6 +49,16 @@ namespace backend.Repository
             return blog;
         }
 
+        // public async Task<List<Blog>> GetUserBlogAsync(string AppUserId)
+        // {
+        //     var blogs = await _context.Blogs
+        //                 .Include(x => x.AppUser)
+        //                 .Where(b => b.AppUserId == AppUserId)
+        //                 .OrderByDescending(b => b.CreatedAT)
+        //                 .ToListAsync();
+        //     return blogs;
+        // }
+
         public async Task<Blog?> GetViewAsync(int id)
         {
             var blog = await _context.Blogs.FindAsync(id);

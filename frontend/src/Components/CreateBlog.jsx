@@ -60,7 +60,14 @@ const CreateBlog = () => {
   }
 
   if(isLoading){
-    return <h1>Blog is being checking wait for a while... </h1>
+    return (
+     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
+          <p className="text-gray-600 font-medium">Loading article...</p>
+        </div>
+      </div>
+    )
   }
 
   return (

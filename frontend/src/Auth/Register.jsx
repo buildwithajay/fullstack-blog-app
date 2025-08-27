@@ -6,8 +6,10 @@ const api = "http://localhost:5274";
 
 const Register = () => {
     const [user, setUser] = useState('');
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
+
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -18,7 +20,7 @@ const Register = () => {
         setError(''); 
         setIsLoading(true);
 
-        if (!user.trim() || !email.trim() || !pass.trim()) {
+        if (!user.trim() || !email.trim() || !pass.trim() || !name.trim()) {
             setError('All fields are required');
             setIsLoading(false);
             return;
@@ -44,6 +46,7 @@ const Register = () => {
                 },
                 body: JSON.stringify({
                     username: user, 
+                    fullName: name,
                     email: email,
                     password: pass
                 })
@@ -132,6 +135,27 @@ const Register = () => {
                                     placeholder="itsjohn"
                                     value={user}
                                     onChange={(e) => setUser(e.target.value)}
+                                    className="block w-full pl-12 pr-4 py-4 border border-gray-200 rounded-2xl bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-400 text-gray-900 transition-all duration-300 hover:bg-white focus:bg-white"
+                                    disabled={isLoading}
+                                />
+                            </div>
+                        </div>
+                        {/* full name field */}
+                         <div className="space-y-2">
+                            <label htmlFor="name" className="block text-sm font-semibold text-gray-700">
+                                Full Name
+                            </label>
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <User className="h-5 w-5 text-gray-400 group-focus-within:text-purple-500 transition-colors duration-300" />
+                                </div>
+                                <input
+                                    type="text"
+                                    required
+                                    id="username"
+                                    placeholder="John Doe"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                     className="block w-full pl-12 pr-4 py-4 border border-gray-200 rounded-2xl bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-400 text-gray-900 transition-all duration-300 hover:bg-white focus:bg-white"
                                     disabled={isLoading}
                                 />

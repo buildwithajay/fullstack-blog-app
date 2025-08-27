@@ -33,7 +33,8 @@ export const getUserFromToken=()=>{
         return {
             Id: payload.sub || payload.Id,
             username: payload.Username || payload.name,
-            email: payload.email
+            email: payload.email,
+            role: payload.role
         }
     }catch(error){
         removeAuthToken();

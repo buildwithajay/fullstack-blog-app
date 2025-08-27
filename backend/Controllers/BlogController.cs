@@ -103,6 +103,19 @@ namespace backend.Controllers
             if (blog == null) return NotFound();
             return Ok(blog.ToBlogDto());
         }
+
+        [HttpGet("dashboard")]
+        [Authorize(Roles = "Admin, Manager")]
+        public async Task<IActionResult> GetUserBlogs()
+        {
+            
+                var blogs = await _blogRepo.GetAllAsync();
+                var blogDto = blogs.Select(s => s.ToBlogDto());
+                return Ok(blogDto);
+            
+            
+        }
+
         [HttpPost("{id}/addview")]
         public async Task<IActionResult> AddView([FromRoute] int id)
         {

@@ -1,19 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuthToken } from "../Auth/Auth";
+import { getAuthToken, getUserFromToken } from "../Auth/Auth";
 const Dashboard = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  let user = getUserFromToken();
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
-      let data = await fetch("http://localhost:5274/blog");
+      try{
+        let data = await fetch("http://localhost:5274/blog/dashboard",{
+        headers:{
+          "Authorization": `Bearer ${getAuthToken()}`
+        }}
+      );
       let res = await data.json();
       setBlogs(res);
+      
       setLoading(false);
      
-    };
+      }
+      catch(e){
+        console.log(e)
+      }
+     
+  }
     fetchData();
+   
   }, [handleClick]);
 
   async function handleClick(id) {
@@ -40,7 +53,14 @@ const Dashboard = () => {
   }
 
   if (loading) {
-    return <h2 className="text-center text-xl mt-10">Loading...</h2>;
+    return (
+       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
+          <p className="text-gray-600 font-medium">Loading...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -73,7 +93,8 @@ const Dashboard = () => {
           </thead>
           <tbody>
             {blogs.map((blog) => (
-              <tr key={blog.id} className="border-b hover:bg-gray-50">
+          
+              <tr key={blog.id} className="border-b hover:bg-gray-50" onClick={(e)=>(navigate(`/blogdetails/${blog.id}`))}>
                 <td className="p-3 font-medium text-gray-800">{blog.title}</td>
                 <td className="p-3 text-gray-600">{blog.genre}</td>
                 <td className="p-3 text-gray-600 truncate max-w-xs sm:max-w-sm">
