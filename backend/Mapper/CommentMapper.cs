@@ -15,7 +15,24 @@ namespace backend.Mapper
             {
                 Id = commentDto.Id,
                 Content = commentDto.Content,
-                BlogId = commentDto.BlogId
+                BlogId = commentDto.BlogId,
+                CreatedAT = commentDto.CreateAT,
+                CreatedBy = commentDto.AppUser?.FullName
+            };
+        }
+        public static Comment ToCommentFromCreate(this CreateCommentDto createCommentDto, int blogId)
+        {
+            return new Comment
+            {
+                Content = createCommentDto.Content,
+                BlogId = blogId
+            };
+        }
+        public static Comment ToCommentFromUpdate(this UpdateCommentRequestDto updateComment)
+        {
+            return new Comment
+            {
+                Content = updateComment.Content
             };
         }
     }

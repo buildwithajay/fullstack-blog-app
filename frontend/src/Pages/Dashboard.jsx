@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuthToken, getUserFromToken } from "../Auth/Auth";
+import { getAuthToken, getUserFromToken, isAuthenticate } from "../Auth/Auth";
 const Dashboard = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,6 +9,11 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try{
+        const user =await  getUserFromToken().role;
+        const isAdmin = user.includes("Admin")
+        const isManager = user.includes("Manager")
+        
+        if(isAuthenticate() && isAdmin || isManager ){
         let data = await fetch("http://localhost:5274/blog/dashboard",{
         headers:{
           "Authorization": `Bearer ${getAuthToken()}`
@@ -18,6 +23,9 @@ const Dashboard = () => {
       setBlogs(res);
       
       setLoading(false);
+    }else if(isAuthenticate() && !isAdmin || !isManager){
+        navigate("/blogs")
+    }
      
       }
       catch(e){
@@ -48,7 +56,7 @@ const Dashboard = () => {
     }
   }
   function handleUpdate(id){
-
+   
     navigate(`/updateblog/${id}`)
   }
 
@@ -94,7 +102,9 @@ const Dashboard = () => {
           <tbody>
             {blogs.map((blog) => (
           
-              <tr key={blog.id} className="border-b hover:bg-gray-50" onClick={(e)=>(navigate(`/blogdetails/${blog.id}`))}>
+              <tr key={blog.id} className="border-b hover:bg-gray-50" onClick={(e)=>{
+                e.preventDefault()
+                navigate(`/blogdetails/${blog.id}`)}}>
                 <td className="p-3 font-medium text-gray-800">{blog.title}</td>
                 <td className="p-3 text-gray-600">{blog.genre}</td>
                 <td className="p-3 text-gray-600 truncate max-w-xs sm:max-w-sm">
@@ -102,7 +112,9 @@ const Dashboard = () => {
                 </td>
                 <td className="p-3 flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center">
                   <button className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition text-sm sm:text-base"
-                  onClick={()=>{handleUpdate(blog.id)}}
+                  onClick={(e)=>{
+                    e.stopPropagation()
+                    handleUpdate(blog.id)}}
                   >
                     Update
                   </button>

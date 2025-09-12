@@ -29,7 +29,7 @@ namespace Service
         {
             var claims = new List<Claim>
             {
-               new Claim(ClaimTypes.Name, appUser.UserName!),
+                new Claim(ClaimTypes.Name, appUser.UserName!),
                 new Claim(JwtRegisteredClaimNames.Email, appUser.Email!),
                 new Claim(JwtRegisteredClaimNames.GivenName, appUser.UserName!),
                 
@@ -38,7 +38,7 @@ namespace Service
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
-             
+            
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
             {

@@ -13,9 +13,5 @@ namespace backend.Model
         public string FullName { get; set; } = string.Empty;
         public ICollection<Blog>? Blogs { get; set; }
 
-        public static implicit operator AppUser?(UserDto? v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

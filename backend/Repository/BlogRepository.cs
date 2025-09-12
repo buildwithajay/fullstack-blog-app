@@ -37,9 +37,14 @@ namespace backend.Repository
             return blog;
         }
 
+        public async Task<bool> ExistingBlogAsync(int id)
+        {
+            return await _context.Blogs.AnyAsync(s => s.Id == id);
+        }
+
         public async Task<List<Blog>> GetAllAsync()
         {
-            return await _context.Blogs.Include(x=>x.AppUser).ToListAsync();
+            return await _context.Blogs.Include(c=>c.comments)!.ThenInclude(x=>x.AppUser).ToListAsync();
 
         }
 
@@ -49,15 +54,7 @@ namespace backend.Repository
             return blog;
         }
 
-        // public async Task<List<Blog>> GetUserBlogAsync(string AppUserId)
-        // {
-        //     var blogs = await _context.Blogs
-        //                 .Include(x => x.AppUser)
-        //                 .Where(b => b.AppUserId == AppUserId)
-        //                 .OrderByDescending(b => b.CreatedAT)
-        //                 .ToListAsync();
-        //     return blogs;
-        // }
+     
 
         public async Task<Blog?> GetViewAsync(int id)
         {

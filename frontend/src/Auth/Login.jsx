@@ -15,15 +15,15 @@ const Login = () => {
 
     const userData =async ()=>{
             const user =await  getUserFromToken().role;
-             console.log(user)
+            
             const isAdmin = user.includes("Admin")
             const isManager = user.includes("Manager")
 
             if(isAuthenticate() && isAdmin || isManager){
-                navigate("/dashboard")
+               return  navigate("/dashboard")
             }
             else if(isAuthenticate()){
-                navigate("/blogs")
+               return navigate("/blogs")
             }
     }
 
@@ -31,12 +31,9 @@ const Login = () => {
  
 
     useEffect(() => {
-        if (isAuthenticate() ) {
-            navigate('/dashboard');
-        }
-        // else if(isAuthenticate()){
-        //     navigate("/blogs")
-        // }
+       if(isAuthenticate()){
+        navigate("/dashboard")
+       }
     }, [navigate]);
 
     const handleSubmit = async (e) => {

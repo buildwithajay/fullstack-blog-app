@@ -1,6 +1,7 @@
 using backend.Data;
 using backend.Interfaces;
 using backend.Model;
+
 using backend.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -72,6 +73,7 @@ builder.Services.AddAuthorization(options =>
 });
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 var app = builder.Build();
 
