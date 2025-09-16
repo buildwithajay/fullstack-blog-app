@@ -44,13 +44,13 @@ namespace backend.Repository
 
         public async Task<List<Blog>> GetAllAsync()
         {
-            return await _context.Blogs.Include(c=>c.comments)!.ThenInclude(x=>x.AppUser).ToListAsync();
+            return await _context.Blogs.Include(x=>x.AppUser).ToListAsync();
 
         }
 
         public async Task<Blog?> GetById(int id)
         {
-            var blog = await _context.Blogs.Include(x=>x.AppUser).FirstOrDefaultAsync(x => x.Id == id);
+            var blog = await _context.Blogs.Include(c=>c.comments)!.ThenInclude(x=>x.AppUser).FirstOrDefaultAsync(x => x.Id == id);
             return blog;
         }
 

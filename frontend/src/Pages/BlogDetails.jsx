@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import moment from 'moment';
 import { 
   ArrowLeft, 
   Clock, 
@@ -12,11 +13,13 @@ import {
   Bookmark,
   MessageCircle
 } from 'lucide-react';
+import CommentComp from '../Components/CommentComp';
 
 const BlogDetails = () => {
   const [blogInfo, setBlogInfo] = useState();
   const [loading, setLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
+
   const [isBookmarked, setIsBookmarked] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
@@ -27,7 +30,9 @@ const BlogDetails = () => {
       let res = await req.json();
       setBlogInfo(res);
       setLoading(false);
-      console.log(res);
+      console.log(res)
+     
+
     };
     fetchBlog();
   }, [params.id]);
@@ -42,6 +47,7 @@ const BlogDetails = () => {
       day: 'numeric'
     });
   };
+  
 
   const getReadTime = (readTime) => {
     if (readTime && readTime > 0) {
@@ -52,16 +58,16 @@ const BlogDetails = () => {
 
   const getGenreColor = (genre) => {
     const colors = {
-      tech: "bg-blue-100 text-blue-800",
+      Tech: "bg-blue-100 text-blue-800",
       lifestyle: "bg-green-100 text-green-800",
       business: "bg-purple-100 text-purple-800",
       health: "bg-red-100 text-red-800",
-      travel: "bg-yellow-100 text-yellow-800",
+      Travel: "bg-yellow-100 text-yellow-800",
       default: "bg-gray-100 text-gray-800"
     };
     return colors[genre?.toLowerCase()] || colors.default;
   };
-
+  
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center">
@@ -233,10 +239,7 @@ const BlogDetails = () => {
             {blogInfo?.comments && blogInfo.comments.length > 0 ? (
               <div className="space-y-4">
                 {blogInfo.comments.map((comment, index) => (
-                  <div key={index} className="bg-gray-50 rounded-2xl p-6">
-                    <p className="text-gray-800">{comment.content}</p>
-                    <p className="text-sm text-gray-500 mt-2">- {comment.author}</p>
-                  </div>
+                 <CommentComp key={index} content={comment.content} author={comment.createdBy} createdAT={comment.createdAT}/>
                 ))}
               </div>
             ) : (

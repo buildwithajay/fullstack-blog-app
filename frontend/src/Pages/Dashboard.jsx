@@ -38,6 +38,7 @@ const Dashboard = () => {
   }, [handleClick]);
 
   async function handleClick(id) {
+    
     try {
       let removeBlog = await fetch(`http://localhost:5274/blog/${id}`, {
         method: "DELETE",
@@ -120,7 +121,8 @@ const Dashboard = () => {
                   </button>
                   <button
                     className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition text-sm sm:text-base"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       handleClick(blog.id);
                     }}
                   >

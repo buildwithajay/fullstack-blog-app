@@ -41,9 +41,7 @@ const CreateBlog = () => {
           "content":content,
           "genre":genre, 
           "imageUrl":uploadImageUrl.secure_url,
-          "readTime":readTime
-        
-        
+          "readTime":readTime,
         })
       })
       let data = await post.json()

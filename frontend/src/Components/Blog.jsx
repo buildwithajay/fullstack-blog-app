@@ -19,6 +19,8 @@ const Blog = () => {
 
         setBlogData(sortedData);
         setIsLoading(false)
+        console.log(sortedData)
+        
       }
       fetchBlog()
     },[])
@@ -86,7 +88,7 @@ if(isLoading)
                   
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-gray-700">
-                      By {item.appUser.fullName || 'Anonymous'}
+                      By {item?.appUser?.fullName || 'Anonymous'}
                     </span>
                     <button className="flex items-center text-purple-600 hover:text-purple-700 font-medium text-sm group-hover:translate-x-1 transition-transform">
                       Read More
