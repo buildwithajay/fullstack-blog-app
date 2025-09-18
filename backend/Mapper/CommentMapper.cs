@@ -17,6 +17,7 @@ namespace backend.Mapper
                 Content = commentDto.Content,
                 BlogId = commentDto.BlogId,
                 CreatedAT = commentDto.CreateAT,
+                Email = commentDto.AppUser?.Email,
                 CreatedBy = commentDto.AppUser?.FullName
             };
         }

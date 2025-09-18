@@ -12,6 +12,7 @@ namespace backend.DTO.Comment
         public string? Content { get; set; }
         public DateTime CreatedAT { get; set; }
         public string? CreatedBy { get; set; }
+        public string? Email { get; set; }
         public int BlogId { get; set; }
     }
 }

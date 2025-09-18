@@ -37,19 +37,21 @@ const Register = () => {
             setIsLoading(false);
             return;
         }
+        let formData = new FormData();
+        formData.append("fullName", name)
+        formData.append("username", user)
+        formData.append("email", email)
+        formData.append("password", pass)
+        formData.append("profilePicture", pic)
+
 
         try {
             const response = await fetch(api + "/account/register", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "multipart/form-data"
                 },
-                body: JSON.stringify({
-                    username: user, 
-                    fullName: name,
-                    email: email,
-                    password: pass
-                })
+                body: formData
             });
 
             if (response.ok) {
@@ -178,6 +180,27 @@ const Register = () => {
                                     placeholder="abc@gmail.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                    className="block w-full pl-12 pr-4 py-4 border border-gray-200 rounded-2xl bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-400 text-gray-900 transition-all duration-300 hover:bg-white focus:bg-white"
+                                    disabled={isLoading}
+                                />
+                            </div>
+                        </div>
+                        {/* profile picture field */}
+                        <div className="space-y-2">
+                            <label htmlFor="pic" className="block text-sm font-semibold text-gray-700">
+                                Profile Picture
+                            </label>
+                            <div className="relative group">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-purple-500 transition-colors duration-300" />
+                                </div>
+                                <input
+                                    type="file"
+                                    required
+                                    id="pic"
+                                    placeholder="abc@gmail.com"
+                                    value={pic}
+                                    onChange={(e) => setPic(e.target.value)}
                                     className="block w-full pl-12 pr-4 py-4 border border-gray-200 rounded-2xl bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-400 text-gray-900 transition-all duration-300 hover:bg-white focus:bg-white"
                                     disabled={isLoading}
                                 />

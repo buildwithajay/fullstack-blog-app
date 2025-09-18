@@ -19,7 +19,7 @@ namespace Service
         private readonly SymmetricSecurityKey _key;
    
 
-        public TokenService(IConfiguration config, UserManager<AppUser> userManager)
+        public TokenService(IConfiguration config)
         {
             _config = config;
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigningKey"]!));

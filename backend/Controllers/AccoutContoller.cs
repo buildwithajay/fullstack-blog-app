@@ -20,12 +20,14 @@ namespace backend.Controllers
         private readonly ITokenService _token;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public AccoutContoller(UserManager<AppUser> user, ITokenService token, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager)
+        private readonly IWebHostEnvironment _env;
+        public AccoutContoller(UserManager<AppUser> user, ITokenService token, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, IWebHostEnvironment env)
         {
             _user = user;
             _token = token;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _env = env;
         }
         [HttpPost]
         [Route("login")]
@@ -57,19 +59,22 @@ namespace backend.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        public async Task<IActionResult> Register([FromForm] RegisterDto registerDto)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest("failed to connect");
+                    
                 }
+              
                 var appUser = new AppUser
                 {
                     UserName = registerDto.UserName,
                     Email = registerDto.Email,
-                    FullName = registerDto.FullName!
+                    FullName = registerDto.FullName!,
+           
                 };
                 if (string.IsNullOrEmpty(registerDto.Password))
                 {

@@ -267,7 +267,7 @@ namespace backend.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Blogs");
+                    b.ToTable("Blogs", (string)null);
                 });
 
             modelBuilder.Entity("backend.Model.Comment", b =>
@@ -294,7 +294,7 @@ namespace backend.Migrations
 
                     b.HasIndex("BlogId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

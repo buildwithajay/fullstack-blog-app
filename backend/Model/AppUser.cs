@@ -9,7 +9,7 @@ namespace backend.Model
 {
     public class AppUser : IdentityUser
     {
-        internal readonly object comments;
+        
 
         public string FullName { get; set; } = string.Empty;
         public ICollection<Blog>? Blogs { get; set; }

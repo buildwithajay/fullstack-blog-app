@@ -239,7 +239,7 @@ const BlogDetails = () => {
             {blogInfo?.comments && blogInfo.comments.length > 0 ? (
               <div className="space-y-4">
                 {blogInfo.comments.map((comment, index) => (
-                 <CommentComp key={index} content={comment.content} author={comment.createdBy} createdAT={comment.createdAT}/>
+                 <CommentComp key={index} content={comment.content} user={comment.email} author={comment.createdBy} createdAT={comment.createdAT}/>
                 ))}
               </div>
             ) : (
