@@ -79,6 +79,7 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 app.UseCors("AllowViteApp");
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

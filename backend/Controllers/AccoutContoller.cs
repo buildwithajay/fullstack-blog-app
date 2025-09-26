@@ -20,14 +20,13 @@ namespace backend.Controllers
         private readonly ITokenService _token;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IWebHostEnvironment _env;
-        public AccoutContoller(UserManager<AppUser> user, ITokenService token, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, IWebHostEnvironment env)
+
+        public AccoutContoller(UserManager<AppUser> user, ITokenService token, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _user = user;
             _token = token;
             _signInManager = signInManager;
             _roleManager = roleManager;
-            _env = env;
         }
         [HttpPost]
         [Route("login")]
