@@ -66,6 +66,46 @@ const BlogDetails = () => {
     };
     return colors[genre?.toLowerCase()] || colors.default;
   };
+
+  // Social sharing functions
+  const shareOnFacebook = () => {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(blogInfo?.title || 'Check out this article');
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${title}`;
+    window.open(facebookUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
+  };
+
+  const shareOnTwitter = () => {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(blogInfo?.title || 'Check out this article');
+    const author = encodeURIComponent(`by ${blogInfo?.appUser?.fullName || 'NepalNiti'}`);
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${title} ${author}&url=${url}&hashtags=NepalNiti,News,Article`;
+    window.open(twitterUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
+  };
+
+  const shareOnLinkedIn = () => {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(blogInfo?.title || 'Check out this article');
+    const summary = encodeURIComponent(blogInfo?.content?.substring(0, 200) + '...' || 'Interesting article from NepalNiti');
+    const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}&summary=${summary}`;
+    window.open(linkedinUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
+  };
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert('Article link copied to clipboard!');
+    } catch (err) {
+      // Fallback for browsers that don't support clipboard API
+      const textArea = document.createElement('textarea');
+      textArea.value = window.location.href;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert('Article link copied to clipboard!');
+    }
+  };
   
   if (loading) {
     return (
@@ -128,13 +168,25 @@ const BlogDetails = () => {
 
           {/* Social Share Buttons */}
           <div className="flex items-center space-x-2">
-            <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded transition-colors duration-200">
+            <button 
+              onClick={shareOnFacebook}
+              className="p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded transition-colors duration-200"
+              title="Share on Facebook"
+            >
               <Facebook className="w-5 h-5" />
             </button>
-            <button className="p-2 text-gray-600 hover:text-blue-400 hover:bg-gray-100 rounded transition-colors duration-200">
+            <button 
+              onClick={shareOnTwitter}
+              className="p-2 text-gray-600 hover:text-blue-400 hover:bg-gray-100 rounded transition-colors duration-200"
+              title="Share on Twitter"
+            >
               <Twitter className="w-5 h-5" />
             </button>
-            <button className="p-2 text-gray-600 hover:text-blue-700 hover:bg-gray-100 rounded transition-colors duration-200">
+            <button 
+              onClick={shareOnLinkedIn}
+              className="p-2 text-gray-600 hover:text-blue-700 hover:bg-gray-100 rounded transition-colors duration-200"
+              title="Share on LinkedIn"
+            >
               <Linkedin className="w-5 h-5" />
             </button>
             <button
@@ -144,6 +196,7 @@ const BlogDetails = () => {
                   ? 'text-red-600 bg-red-50' 
                   : 'text-gray-600 hover:text-red-600 hover:bg-gray-100'
               }`}
+              title={isBookmarked ? 'Remove bookmark' : 'Bookmark article'}
             >
               <Bookmark className={`w-5 h-5 ${isBookmarked ? 'fill-current' : ''}`} />
             </button>
@@ -215,9 +268,12 @@ const BlogDetails = () => {
                 <Heart className={`w-4 h-4 mr-2 ${isLiked ? 'fill-current' : ''}`} />
                 Like
               </button>
-              <button className="flex items-center px-4 py-2 border border-gray-300 bg-white text-gray-700 rounded hover:bg-gray-50 transition-colors duration-200">
+              <button 
+                onClick={copyToClipboard}
+                className="flex items-center px-4 py-2 border border-gray-300 bg-white text-gray-700 rounded hover:bg-gray-50 transition-colors duration-200"
+              >
                 <Share2 className="w-4 h-4 mr-2" />
-                Share
+                Copy Link
               </button>
             </div>
             <div className="text-sm text-gray-500">
