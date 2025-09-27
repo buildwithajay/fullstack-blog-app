@@ -32,8 +32,41 @@ const BlogDetails = () => {
       let res = await req.json();
       setBlogInfo(res);
       setLoading(false);
-      console.log(res)
+      console.log(res);
+      
+      // Update page meta tags for social sharing
+      if (res) {
+        document.title = res.title || 'NepalNiti Article';
+        
+        // Update or create Open Graph meta tags
+        updateMetaTag('og:title', res.title || 'NepalNiti Article');
+        updateMetaTag('og:description', res.content?.substring(0, 160) || 'Read the latest news and analysis from NepalNiti');
+        updateMetaTag('og:image', res.imageUrl || '/logo.png');
+        updateMetaTag('og:url', window.location.href);
+        updateMetaTag('og:type', 'article');
+        
+        // Twitter Card meta tags
+        updateMetaTag('twitter:card', 'summary_large_image');
+        updateMetaTag('twitter:title', res.title || 'NepalNiti Article');
+        updateMetaTag('twitter:description', res.content?.substring(0, 160) || 'Read the latest news and analysis from NepalNiti');
+        updateMetaTag('twitter:image', res.imageUrl || '/logo.png');
+      }
     };
+    
+    const updateMetaTag = (property, content) => {
+      let element = document.querySelector(`meta[property="${property}"], meta[name="${property}"]`);
+      if (!element) {
+        element = document.createElement('meta');
+        if (property.startsWith('twitter:')) {
+          element.setAttribute('name', property);
+        } else {
+          element.setAttribute('property', property);
+        }
+        document.head.appendChild(element);
+      }
+      element.setAttribute('content', content);
+    };
+    
     fetchBlog();
   }, [params.id]);
 
@@ -67,38 +100,56 @@ const BlogDetails = () => {
     return colors[genre?.toLowerCase()] || colors.default;
   };
 
-  // Social sharing functions
+  // Enhanced social sharing functions
   const shareOnFacebook = () => {
     const url = encodeURIComponent(window.location.href);
-    const title = encodeURIComponent(blogInfo?.title || 'Check out this article');
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${title}`;
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
     window.open(facebookUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
   };
 
   const shareOnTwitter = () => {
     const url = encodeURIComponent(window.location.href);
     const title = encodeURIComponent(blogInfo?.title || 'Check out this article');
-    const author = encodeURIComponent(`by ${blogInfo?.appUser?.fullName || 'NepalNiti'}`);
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${title} ${author}&url=${url}&hashtags=NepalNiti,News,Article`;
+    const author = blogInfo?.appUser?.fullName ? encodeURIComponent(`by @${blogInfo.appUser.fullName}`) : '';
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${title}%20${author}&url=${url}&hashtags=NepalNiti,News`;
     window.open(twitterUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
   };
 
   const shareOnLinkedIn = () => {
     const url = encodeURIComponent(window.location.href);
-    const title = encodeURIComponent(blogInfo?.title || 'Check out this article');
-    const summary = encodeURIComponent(blogInfo?.content?.substring(0, 200) + '...' || 'Interesting article from NepalNiti');
-    const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}&summary=${summary}`;
+    const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
     window.open(linkedinUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
+  };
+
+  // Native Web Share API (works on mobile and some desktop browsers)
+  const shareNatively = async () => {
+    if (navigator.share && blogInfo) {
+      try {
+        await navigator.share({
+          title: blogInfo.title || 'NepalNiti Article',
+          text: blogInfo.content?.substring(0, 100) + '...' || 'Check out this article from NepalNiti',
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.log('Error sharing:', error);
+        // Fallback to copy link
+        copyToClipboard();
+      }
+    } else {
+      // Fallback to copy link
+      copyToClipboard();
+    }
   };
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
-      alert('Article link copied to clipboard!');
+      const shareText = `${blogInfo?.title || 'NepalNiti Article'}\n\n${blogInfo?.content?.substring(0, 100) + '...' || 'Read more at:'}\n\n${window.location.href}`;
+      await navigator.clipboard.writeText(shareText);
+      alert('Article details copied to clipboard!');
     } catch (err) {
       // Fallback for browsers that don't support clipboard API
       const textArea = document.createElement('textarea');
-      textArea.value = window.location.href;
+      textArea.value = `${blogInfo?.title || 'NepalNiti Article'}\n\n${window.location.href}`;
       document.body.appendChild(textArea);
       textArea.select();
       document.execCommand('copy');
@@ -269,11 +320,12 @@ const BlogDetails = () => {
                 Like
               </button>
               <button 
-                onClick={copyToClipboard}
+                onClick={shareNatively}
                 className="flex items-center px-4 py-2 border border-gray-300 bg-white text-gray-700 rounded hover:bg-gray-50 transition-colors duration-200"
+                title="Share article"
               >
                 <Share2 className="w-4 h-4 mr-2" />
-                Copy Link
+                {navigator.share ? 'Share' : 'Copy Link'}
               </button>
             </div>
             <div className="text-sm text-gray-500">
