@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [blogData, setBlogData] = useState([]);
+  const [headlineBlogs, setHeadlineBlogs] = useState([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [loading, setLoading] = useState(true);
   const [hoveredCard, setHoveredCard] = useState(null);
   let navigate = useNavigate();
@@ -17,6 +19,7 @@ const Home = () => {
         const dateB = new Date(b.createdAT);
         return dateB - dateA; })
          setBlogData(sortedData.slice(0, 6)); 
+         setHeadlineBlogs(sortedData.slice(0, 5)); // Get first 5 for headlines
         setLoading(false);
      
       } catch (error) {
@@ -50,11 +53,72 @@ const Home = () => {
             genre: "Design"
           }
         ]);
+        setHeadlineBlogs([
+          {
+            id: 1,
+            title: "The Future of Web Development: Trends to Watch in 2025",
+            content: "Exploring the latest technologies and frameworks that are shaping the future of web development...",
+            author: "Sarah Johnson",
+            readTime: 5,
+            views: "2.1k",
+            genre: "Technology",
+            createdAT: new Date().toISOString(),
+            appUser: { fullName: "Sarah Johnson" }
+          },
+          {
+            id: 2,
+            title: "Building Scalable React Applications",
+            content: "Learn best practices for creating maintainable and scalable React applications...",
+            author: "Mike Chen", 
+            readTime: 8,
+            views: "1.8k",
+            genre: "Development",
+            createdAT: new Date().toISOString(),
+            appUser: { fullName: "Mike Chen" }
+          },
+          {
+            id: 3,
+            title: "Design Systems That Scale",
+            content: "How to create and maintain design systems that work across multiple platforms...",
+            author: "Emily Rodriguez",
+            readTime: 6,
+            views: "3.2k", 
+            genre: "Design",
+            createdAT: new Date().toISOString(),
+            appUser: { fullName: "Emily Rodriguez" }
+          }
+        ]);
         setLoading(false);
       }
     };
     fetchData();
   }, []);
+
+  // Swiper functionality for headlines - simplified approach
+  useEffect(() => {
+    let interval;
+    
+    console.log('Setting up auto-slide - total slides:', headlineBlogs.length);
+    
+    if (headlineBlogs.length > 1) {
+      interval = setInterval(() => {
+        setCurrentSlide(prev => {
+          const next = (prev + 1) % headlineBlogs.length;
+          console.log('Auto-slide: moving to slide', next);
+          return next;
+        });
+      }, 4000);
+      
+      console.log('Auto-slide interval started');
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+        console.log('Auto-slide interval cleared');
+      }
+    };
+  }, [headlineBlogs.length]); // Only depend on length
 
   const handleClick =(id)=>{
       navigate(`/blogdetails/${id}`)
@@ -112,21 +176,129 @@ const Home = () => {
             </div>
             
             <div className="relative">
-              <div className="bg-red-600 p-8 text-white">
-                <h3 className="text-2xl font-bold mb-4">Latest Headlines</h3>
-                <div className="space-y-4">
-                  <div className="border-l-4 border-white pl-4">
-                    <h4 className="font-semibold mb-1">Breaking: Technology Innovation Summit 2025</h4>
-                    <p className="text-red-100 text-sm">2 hours ago</p>
+              <div className="relative h-80 bg-red-600 overflow-hidden cursor-pointer" onClick={() => headlineBlogs[currentSlide] && handleClick(headlineBlogs[currentSlide].id)}>
+                {/* Background Images - All slides */}
+                {headlineBlogs.map((blog, index) => (
+                  <div 
+                    key={blog.id}
+                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                      index === currentSlide ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {blog.imageUrl ? (
+                      <img 
+                        src={blog.imageUrl} 
+                        alt={blog.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-red-700 to-red-900"></div>
+                    )}
+                    <div className="absolute inset-0 bg-black/60"></div>
                   </div>
-                  <div className="border-l-4 border-red-300 pl-4">
-                    <h4 className="font-semibold mb-1">Global Climate Action Reaches New Milestone</h4>
-                    <p className="text-red-100 text-sm">4 hours ago</p>
+                ))}
+
+                {/* Content */}
+                <div className="relative z-10 p-8 h-full flex flex-col justify-end text-white">
+                  <div className="mb-4">
+                    <span className="bg-white text-red-600 px-3 py-1 text-xs font-semibold uppercase tracking-wide rounded">
+                      Breaking News
+                    </span>
                   </div>
-                  <div className="border-l-4 border-red-300 pl-4">
-                    <h4 className="font-semibold mb-1">Economic Markets Show Strong Recovery</h4>
-                    <p className="text-red-100 text-sm">6 hours ago</p>
+                  
+                  <div className="transition-all duration-500 ease-in-out">
+                    <h3 className="text-3xl font-bold mb-4 leading-tight">
+                      {headlineBlogs[currentSlide]?.title || 'Latest News Update'}
+                    </h3>
+                    
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                          <span className="text-xs font-semibold">
+                            {(headlineBlogs[currentSlide]?.appUser?.fullName || 'Staff')[0].toUpperCase()}
+                          </span>
+                        </div>
+                        <div>
+                          <p className="font-medium">
+                            {headlineBlogs[currentSlide]?.appUser?.fullName || 'NepalNiti Staff'}
+                          </p>
+                          <p className="text-white/70 text-xs">
+                            {headlineBlogs[currentSlide]?.createdAT 
+                              ? new Date(headlineBlogs[currentSlide].createdAT).toLocaleDateString('en-GB', {
+                                  day: 'numeric',
+                                  month: 'short',
+                                  hour: '2-digit',
+                                  minute: '2-digit'
+                                })
+                              : 'Just now'
+                            }
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center space-x-3">
+                        <div className="flex items-center">
+                          <Clock className="w-4 h-4 mr-1" />
+                          {headlineBlogs[currentSlide]?.readTime || 5} min
+                        </div>
+                        <div className="flex items-center">
+                          <Eye className="w-4 h-4 mr-1" />
+                          {headlineBlogs[currentSlide]?.views || '1.2k'}
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                </div>
+
+                {/* Slide Indicators */}
+                <div className="absolute bottom-4 right-8 flex space-x-2">
+                  {headlineBlogs.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentSlide(index);
+                      }}
+                      className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                        index === currentSlide ? 'bg-white' : 'bg-white/40'
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                {/* Next/Prev arrows */}
+                {headlineBlogs.length > 1 && (
+                  <>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentSlide((prev) => prev === 0 ? headlineBlogs.length - 1 : prev - 1);
+                      }}
+                      className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-2 rounded-full transition-all duration-200"
+                    >
+                      <ChevronRight className="w-5 h-5 rotate-180" />
+                    </button>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentSlide((prev) => (prev + 1) % headlineBlogs.length);
+                      }}
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-2 rounded-full transition-all duration-200"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </>
+                )}
+
+                {/* Progress bar for auto-slide */}
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-black/20">
+                  <div 
+                    className="h-full bg-white transition-all duration-100 ease-linear"
+                    style={{
+                      width: '100%',
+                      animation: headlineBlogs.length > 1 ? 'progress 4s linear infinite' : 'none'
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -305,6 +477,15 @@ const Home = () => {
       </section>
 
       <style jsx>{`
+        @keyframes progress {
+          0% {
+            width: 0%;
+          }
+          100% {
+            width: 100%;
+          }
+        }
+        
         .line-clamp-2 {
           display: -webkit-box;
           -webkit-line-clamp: 2;
