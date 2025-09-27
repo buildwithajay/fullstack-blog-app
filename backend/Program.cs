@@ -19,7 +19,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowViteApp",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173") 
+            policy.WithOrigins("https://fullstack-blog-app-jade.vercel.app") 
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
