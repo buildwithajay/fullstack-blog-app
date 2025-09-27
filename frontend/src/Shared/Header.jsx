@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Menu, X, User, LogOut, LogIn } from 'lucide-react';
-import { isAuthenticate, removeAuthToken } from '../Auth/Auth';
+import { getUserFromToken, isAuthenticate, removeAuthToken } from '../Auth/Auth';
 
 const Header = () => {
   const navigate = useNavigate();
   const [logging, setLogging] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const user = getUserFromToken()
+
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -21,35 +23,52 @@ const Header = () => {
 
   const linkClass = ({ isActive }) =>
     isActive
-      ? "text-purple-400 border-b-2 border-purple-400 pb-1 font-semibold"
-      : "text-white hover:text-purple-300 transition-all duration-300 hover:scale-105";
+      ? "text-red-600 border-b-2 border-red-600 pb-1 font-medium"
+      : "text-gray-700 hover:text-red-600 transition-colors duration-200";
 
   const mobileLinkClass = ({ isActive }) =>
     isActive
-      ? "block px-4 py-3 text-purple-400 bg-white/10 rounded-lg font-semibold"
-      : "block px-4 py-3 text-white hover:text-purple-300 hover:bg-white/5 rounded-lg transition-all duration-300";
+      ? "block px-4 py-3 text-red-600 bg-gray-50 font-medium"
+      : "block px-4 py-3 text-gray-700 hover:text-red-600 hover:bg-gray-50 transition-colors duration-200";
 
   return (
     <>
-      
-      <header className='bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 backdrop-blur-md border-b border-white/10 sticky top-0 z-50 shadow-xl'>
+      {/* Top Bar */}
+      <div className='bg-black text-white text-xs'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='flex items-center justify-between py-2'>
+            <div className='flex items-center space-x-4'>
+              <span>Nepal</span>
+              <span className='text-gray-400'>|</span>
+              <span>Politics</span>
+              <span className='text-gray-400'>|</span>
+              <span>News</span>
+            </div>
+            <div className='hidden sm:flex items-center space-x-4'>
+              <span>Sign in</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <header className='bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='flex items-center justify-between h-16'>
             
-           
+            {/* Logo */}
             <div className='flex items-center space-x-3 group cursor-pointer' onClick={()=>navigate('/')}>
-              <div className='w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-purple-500/25 transition-all duration-300 group-hover:scale-110'>
-                <img src="logo.png" alt="Logo" className='w-6 h-6 object-contain' onError={(e) => {
+              <div className='w-10 h-10 bg-red-600 rounded flex items-center justify-center shadow-sm group-hover:bg-red-700 transition-colors duration-200'>
+                <img src="logo.png" alt="Logo" className='w-6 h-6 object-contain brightness-0 invert' onError={(e) => {
                   e.target.style.display = 'none';
                   e.target.nextSibling.style.display = 'block';
                 }} />
                 <span className='text-white font-bold text-lg hidden'>N</span>
               </div>
-              <div className='hidden sm:block' >
-                <h1 className='text-white font-bold text-xl bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent'>
+              <div className='hidden sm:block'>
+                <h1 className='text-black font-bold text-2xl tracking-tight'>
                   NepalNiti
                 </h1>
-                <p className='text-purple-300 text-xs'>Inspire & Inform</p>
+                <p className='text-gray-500 text-xs uppercase tracking-wide'>Inspire & Inform</p>
               </div>
             </div>
 
@@ -64,22 +83,25 @@ const Header = () => {
             </nav>
 
             {/* Desktop Auth Button */}
-            <div className='hidden md:block'>
+            <div className='hidden md:flex items-center space-x-4'>
               {isAuthenticate() ? (
-                <button 
-                  onClick={handleSignOut}
-                  className='group bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-2.5 rounded-full font-semibold text-sm shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2'
-                >
-                  <LogOut className='w-4 h-4 group-hover:rotate-12 transition-transform duration-300' />
-                  <span>Sign Out</span>
-                </button>
+                <div className='flex items-center space-x-3'>
+                  <span className='text-sm text-gray-600'>Hello, {username}</span>
+                  <button 
+                    onClick={handleSignOut}
+                    className='bg-red-600 hover:bg-red-700 text-white px-4 py-2 text-sm font-medium transition-colors duration-200 flex items-center space-x-2'
+                  >
+                    <LogOut className='w-4 h-4' />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
               ) : (
                 <button 
                   onClick={handleClick}
-                  className='group bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-2.5 rounded-full font-semibold text-sm shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2'
+                  className='bg-red-600 hover:bg-red-700 text-white px-4 py-2 text-sm font-medium transition-colors duration-200 flex items-center space-x-2'
                 >
-                  <LogIn className='w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300' />
-                  <span>Login</span>
+                  <LogIn className='w-4 h-4' />
+                  <span>Sign in</span>
                 </button>
               )}
             </div>
@@ -88,23 +110,23 @@ const Header = () => {
             <div className='md:hidden'>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className='text-white hover:text-purple-300 p-2 rounded-lg hover:bg-white/5 transition-all duration-300'
+                className='text-gray-700 hover:text-red-600 p-2 transition-colors duration-200'
                 aria-label="Toggle menu"
               >
                 {isMenuOpen ? (
-                  <X className='w-6 h-6 transform rotate-90 transition-transform duration-300' />
+                  <X className='w-6 h-6' />
                 ) : (
-                  <Menu className='w-6 h-6 transition-transform duration-300' />
+                  <Menu className='w-6 h-6' />
                 )}
               </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu Overlay */}
+        {/* Mobile Menu */}
         <div className={`md:hidden transition-all duration-300 ${isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
-          <div className='bg-gradient-to-br from-slate-800/95 to-purple-900/95 backdrop-blur-xl border-t border-white/10 shadow-2xl'>
-            <div className='px-4 py-6 space-y-1'>
+          <div className='bg-white border-t border-gray-200'>
+            <div className='px-4 py-4 space-y-1'>
               {/* Mobile Navigation Links */}
               <NavLink 
                 to={"/"} 
@@ -136,28 +158,31 @@ const Header = () => {
               </NavLink>
               
               {/* Mobile Auth Button */}
-              <div className='pt-4 border-t border-white/10 mt-4'>
+              <div className='pt-4 border-t border-gray-200 mt-4'>
                 {isAuthenticate() ? (
-                  <button 
-                    onClick={(e) => {
-                      handleSignOut(e);
-                      setIsMenuOpen(false);
-                    }}
-                    className='w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2'
-                  >
-                    <LogOut className='w-4 h-4' />
-                    <span>Sign Out</span>
-                  </button>
+                  <div className='space-y-3'>
+                    <div className='text-sm text-gray-600 px-4'>Hello, {username}</div>
+                    <button 
+                      onClick={(e) => {
+                        handleSignOut(e);
+                        setIsMenuOpen(false);
+                      }}
+                      className='w-full bg-red-600 hover:bg-red-700 text-white px-4 py-3 text-sm font-medium transition-colors duration-200 flex items-center justify-center space-x-2'
+                    >
+                      <LogOut className='w-4 h-4' />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
                 ) : (
                   <button 
                     onClick={(e) => {
                       handleClick(e);
                       setIsMenuOpen(false);
                     }}
-                    className='w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2'
+                    className='w-full bg-red-600 hover:bg-red-700 text-white px-4 py-3 text-sm font-medium transition-colors duration-200 flex items-center justify-center space-x-2'
                   >
                     <LogIn className='w-4 h-4' />
-                    <span>Login</span>
+                    <span>Sign in</span>
                   </button>
                 )}
               </div>
@@ -169,7 +194,7 @@ const Header = () => {
       {/* Mobile Menu Backdrop */}
       {isMenuOpen && (
         <div 
-          className='fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden'
+          className='fixed inset-0 bg-black/10 backdrop-blur-sm z-40 md:hidden'
           onClick={() => setIsMenuOpen(false)}
         ></div>
       )}
