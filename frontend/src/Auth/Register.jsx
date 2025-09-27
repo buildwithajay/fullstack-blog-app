@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Eye, EyeOff, User, Mail, Lock, UserPlus, LogIn, Sparkles, Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const api = "http://localhost:5274";
+const api = "https://fullstack-blog-app-l5ph.onrender.com";
 
 const Register = () => {
     const [user, setUser] = useState('');

@@ -30,7 +30,7 @@ const CreateBlog = () => {
       const uploadImageUrl = await postImage.json();
       console.log(uploadImageUrl.secure_url)
 
-      let post = await fetch("http://localhost:5274/blog", {
+      let post = await fetch("https://fullstack-blog-app-l5ph.onrender.com/blog", {
         method: "POST",
         headers:{
           "Content-Type":"application/json",

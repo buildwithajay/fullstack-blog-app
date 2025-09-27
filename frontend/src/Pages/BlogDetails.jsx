@@ -26,7 +26,7 @@ const BlogDetails = () => {
 
   useEffect(() => {
     const fetchBlog = async () => {
-      let req = await fetch(`http://localhost:5274/blog/${params.id}`);
+      let req = await fetch(`https://fullstack-blog-app-l5ph.onrender.com/blog/${params.id}`);
       let res = await req.json();
       setBlogInfo(res);
       setLoading(false);

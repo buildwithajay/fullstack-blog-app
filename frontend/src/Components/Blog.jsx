@@ -8,7 +8,7 @@ const Blog = () => {
       const navigate = useNavigate()
     useEffect(()=>{
       const fetchBlog=async()=>{
-        const res = await fetch("http://localhost:5274/blog")
+        const res = await fetch("https://fullstack-blog-app-l5ph.onrender.com/blog")
         const data = await res.json()
         //sorted the blog according to the date and time
         const sortedData = data.sort((a, b) => {

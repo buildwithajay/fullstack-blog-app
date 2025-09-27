@@ -10,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let api = await fetch("http://localhost:5274/blog");
+        let api = await fetch("https://fullstack-blog-app-l5ph.onrender.com/blog");
         let data = await api.json();
         const sortedData = data.sort((a, b) => {
         const dateA = new Date(a.createdAT);

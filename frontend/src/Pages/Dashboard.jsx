@@ -14,7 +14,7 @@ const Dashboard = () => {
         const isManager = user.includes("Manager")
         
         if(isAuthenticate() && isAdmin || isManager ){
-        let data = await fetch("http://localhost:5274/blog/dashboard",{
+        let data = await fetch("https://fullstack-blog-app-l5ph.onrender.com/blog/dashboard",{
         headers:{
           "Authorization": `Bearer ${getAuthToken()}`
         }}
@@ -40,7 +40,7 @@ const Dashboard = () => {
   async function handleClick(id) {
     
     try {
-      let removeBlog = await fetch(`http://localhost:5274/blog/${id}`, {
+      let removeBlog = await fetch(`https://fullstack-blog-app-l5ph.onrender.com/blog/${id}`, {
         method: "DELETE",
         headers:{
           "Authorization": `Bearer ${getAuthToken()}`

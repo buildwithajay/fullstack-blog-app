@@ -3,7 +3,7 @@ import { Eye, EyeOff, User, Lock, LogIn, UserPlus, Mail, Sparkles } from 'lucide
 import { useNavigate } from 'react-router-dom';
 import { setAuthToken, isAuthenticate, getUserFromToken } from './Auth';
 
-const api = "http://localhost:5274";
+const api = "https://fullstack-blog-app-l5ph.onrender.com";
 
 const Login = () => {
     const [username, setUsername] = useState('');
