@@ -108,6 +108,8 @@ const CreateBlog = () => {
             name="content" 
             id="content" 
             rows="5"
+            required
+            minLength={20}
             className="border rounded-md p-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={(e)=>setContent(e.target.value)}
           ></textarea>
@@ -118,6 +120,7 @@ const CreateBlog = () => {
           <input 
             type="text" 
             placeholder="e.g. Tech, Travel..." 
+            required
             className="border rounded-md p-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={(e)=>setGenre(e.target.value)}
           />
@@ -127,6 +130,7 @@ const CreateBlog = () => {
           <input 
             type="file" 
             placeholder="e.g. Tech, Travel..." 
+            required
             className="border rounded-md p-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={(e)=>setImage(e.target.files[0])}
           />
