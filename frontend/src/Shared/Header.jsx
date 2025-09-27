@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Menu, X, User, LogOut, LogIn } from 'lucide-react';
-import { getUserFromToken, isAuthenticate, removeAuthToken } from '../Auth/Auth';
+import { getAuthToken, getUserFromToken, isAuthenticate, removeAuthToken } from '../Auth/Auth';
 
 const Header = () => {
   const navigate = useNavigate();
   const [logging, setLogging] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const user = getUserFromToken()
+  const[username, setUserName] = useState("");
+  const [user,setUser] = useState({});
+  
+  useEffect(()=>{
+    const fetchUser = async()=>{
+  
+       let token = await getUserFromToken();
+       setUser(token)
+       setUserName(user.username);
+  
+    }
+    fetchUser();
+  }, [user])
 
 
   const handleClick = (e) => {
