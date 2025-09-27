@@ -201,9 +201,7 @@ const Home = () => {
                 {/* Content */}
                 <div className="relative z-10 p-8 h-full flex flex-col justify-end text-white">
                   <div className="mb-4">
-                    <span className="bg-white text-red-600 px-3 py-1 text-xs font-semibold uppercase tracking-wide rounded">
-                      Breaking News
-                    </span>
+                  
                   </div>
                   
                   <div className="transition-all duration-500 ease-in-out">

@@ -11,7 +11,10 @@ import {
   Heart,
   Share2,
   Bookmark,
-  MessageCircle
+  MessageCircle,
+  Facebook,
+  Twitter,
+  Linkedin
 } from 'lucide-react';
 import CommentComp from '../Components/CommentComp';
 
@@ -19,7 +22,6 @@ const BlogDetails = () => {
   const [blogInfo, setBlogInfo] = useState();
   const [loading, setLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
-
   const [isBookmarked, setIsBookmarked] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
@@ -31,8 +33,6 @@ const BlogDetails = () => {
       setBlogInfo(res);
       setLoading(false);
       console.log(res)
-     
-
     };
     fetchBlog();
   }, [params.id]);
@@ -48,7 +48,6 @@ const BlogDetails = () => {
     });
   };
   
-
   const getReadTime = (readTime) => {
     if (readTime && readTime > 0) {
       return `${readTime} min read`;
@@ -63,16 +62,16 @@ const BlogDetails = () => {
       business: "bg-purple-100 text-purple-800",
       health: "bg-red-100 text-red-800",
       Travel: "bg-yellow-100 text-yellow-800",
-      default: "bg-gray-100 text-gray-800"
+      default: "bg-red-600 text-white"
     };
     return colors[genre?.toLowerCase()] || colors.default;
   };
   
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
+          <div className="w-16 h-16 border-4 border-gray-200 border-t-red-600 rounded-full animate-spin"></div>
           <p className="text-gray-600 font-medium">Loading article...</p>
         </div>
       </div>
@@ -80,111 +79,99 @@ const BlogDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 py-20">
-        <div className="absolute inset-0 bg-black/20"></div>
-        
-        {/* Back Button */}
-        <div className="relative max-w-4xl mx-auto px-6 mb-8">
+    <div className="min-h-screen bg-white">
+      {/* Breadcrumb Navigation */}
+      <div className="bg-gray-50 border-b border-gray-200 py-4">
+        <div className="max-w-4xl mx-auto px-6">
           <button
             onClick={() => navigate(-1)}
-            className="inline-flex items-center text-white/80 hover:text-white transition-colors duration-300 group"
+            className="inline-flex items-center text-gray-600 hover:text-red-600 transition-colors duration-200"
           >
-            <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
-            Back to articles
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to stories
           </button>
         </div>
+      </div>
 
-        <div className="relative max-w-4xl mx-auto px-6">
-          {/* Genre Tag */}
-          {blogInfo?.genre && (
-            <div className="mb-4">
-              <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${getGenreColor(blogInfo.genre)}`}>
-                <Tag className="w-4 h-4 mr-1" />
-                {blogInfo.genre.charAt(0).toUpperCase() + blogInfo.genre.slice(1)}
-              </span>
-            </div>
-          )}
+      {/* Article Header */}
+      <div className="max-w-4xl mx-auto px-6 py-8">
+        {/* Category Tag */}
+        {blogInfo?.genre && (
+          <div className="mb-4">
+            <span className={`inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-wide ${getGenreColor(blogInfo.genre)}`}>
+              {blogInfo.genre.charAt(0).toUpperCase() + blogInfo.genre.slice(1)}
+            </span>
+          </div>
+        )}
 
-          {/* Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            {blogInfo?.title || "Article Title"}
-          </h1>
+        {/* Title */}
+        <h1 className="text-4xl md:text-5xl font-bold text-black mb-6 leading-tight">
+          {blogInfo?.title || "Article Title"}
+        </h1>
 
-          {/* Meta Information */}
-          <div className="flex flex-wrap items-center gap-6 text-white/80 mb-8">
+        {/* Article Meta */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 pb-6 border-b border-gray-200">
+          <div className="flex items-center space-x-6 text-gray-600 mb-4 sm:mb-0">
             <div className="flex items-center">
-              <Calendar className="w-5 h-5 mr-2" />
-              <span>{formatDate(blogInfo?.createdAT)}</span>
-            </div>
-            <div className="flex items-center">
-              <Clock className="w-5 h-5 mr-2" />
-              <span>{getReadTime(blogInfo?.readTime)}</span>
+              <Calendar className="w-4 h-4 mr-2" />
+              <span className="text-sm">{formatDate(blogInfo?.createdAT)}</span>
             </div>
             <div className="flex items-center">
-              <Eye className="w-5 h-5 mr-2" />
-              <span>{blogInfo?.views || 0} views</span>
+              <Clock className="w-4 h-4 mr-2" />
+              <span className="text-sm">{getReadTime(blogInfo?.readTime)}</span>
+            </div>
+            <div className="flex items-center">
+              <Eye className="w-4 h-4 mr-2" />
+              <span className="text-sm">{blogInfo?.views || 0} views</span>
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setIsLiked(!isLiked)}
-              className={`flex items-center px-4 py-2 rounded-full border border-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 ${
-                isLiked 
-                  ? 'bg-red-500 text-white' 
-                  : 'bg-white/10 text-white hover:bg-white/20'
-              }`}
-            >
-              <Heart className={`w-4 h-4 mr-2 ${isLiked ? 'fill-current' : ''}`} />
-              Like
+          {/* Social Share Buttons */}
+          <div className="flex items-center space-x-2">
+            <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-100 rounded transition-colors duration-200">
+              <Facebook className="w-5 h-5" />
+            </button>
+            <button className="p-2 text-gray-600 hover:text-blue-400 hover:bg-gray-100 rounded transition-colors duration-200">
+              <Twitter className="w-5 h-5" />
+            </button>
+            <button className="p-2 text-gray-600 hover:text-blue-700 hover:bg-gray-100 rounded transition-colors duration-200">
+              <Linkedin className="w-5 h-5" />
             </button>
             <button
               onClick={() => setIsBookmarked(!isBookmarked)}
-              className={`flex items-center px-4 py-2 rounded-full border border-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 ${
+              className={`p-2 rounded transition-colors duration-200 ${
                 isBookmarked 
-                  ? 'bg-yellow-500 text-white' 
-                  : 'bg-white/10 text-white hover:bg-white/20'
+                  ? 'text-red-600 bg-red-50' 
+                  : 'text-gray-600 hover:text-red-600 hover:bg-gray-100'
               }`}
             >
-              <Bookmark className={`w-4 h-4 mr-2 ${isBookmarked ? 'fill-current' : ''}`} />
-              Save
-            </button>
-            <button className="flex items-center px-4 py-2 rounded-full border border-white/20 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-105">
-              <Share2 className="w-4 h-4 mr-2" />
-              Share
+              <Bookmark className={`w-5 h-5 ${isBookmarked ? 'fill-current' : ''}`} />
             </button>
           </div>
         </div>
 
-        {/* Decorative elements */}
-        <div className="absolute top-20 left-10 w-20 h-20 bg-purple-200/20 rounded-full opacity-60 animate-bounce"></div>
-        <div className="absolute bottom-20 right-20 w-16 h-16 bg-blue-200/20 rounded-full opacity-60 animate-bounce" style={{animationDelay: '1s'}}></div>
+        {/* Featured Image */}
+        {blogInfo?.imageUrl ? (
+          <img 
+            src={blogInfo.imageUrl} 
+            alt={blogInfo.title}
+            className="w-full h-64 md:h-96 object-cover mb-8"
+          />
+        ) : (
+          <div className="w-full h-64 md:h-96 bg-gray-200 mb-8 flex items-center justify-center">
+            <div className="text-center text-gray-400">
+              <User className="w-16 h-16 mx-auto mb-4" />
+              <p className="text-lg font-medium">Featured Image</p>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Content Section */}
-      <div className="max-w-4xl mx-auto px-6 py-16">
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-8 md:p-12">
-          {/* Featured Image Placeholder */}
-          {blogInfo?.imageUrl ? (
-            <img 
-              src={blogInfo.imageUrl} 
-              alt={blogInfo.title}
-              className="w-full h-64 md:h-96 object-cover rounded-2xl mb-8 shadow-lg"
-            />
-          ) : (
-            <div className="w-full h-64 md:h-96 bg-gradient-to-br from-purple-400 via-blue-500 to-indigo-600 rounded-2xl mb-8 flex items-center justify-center shadow-lg">
-              <div className="text-center text-white">
-                <User className="w-16 h-16 mx-auto mb-4 opacity-80" />
-                <p className="text-lg font-medium opacity-90">Featured Image</p>
-              </div>
-            </div>
-          )}
-
-          {/* Article Content */}
-          <div className="prose prose-lg max-w-none">
+      {/* Article Content */}
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="bg-white">
+          {/* Article Body */}
+          <div className="prose prose-lg max-w-none mb-12">
             <div className="text-gray-800 leading-relaxed text-lg">
               {blogInfo?.content ? (
                 <div>
@@ -214,26 +201,56 @@ const BlogDetails = () => {
             </div>
           </div>
 
+          {/* Article Actions */}
+          <div className="flex items-center justify-between py-6 border-t border-gray-200 mb-8">
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setIsLiked(!isLiked)}
+                className={`flex items-center px-4 py-2 border rounded transition-colors duration-200 ${
+                  isLiked 
+                    ? 'bg-red-600 text-white border-red-600' 
+                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                <Heart className={`w-4 h-4 mr-2 ${isLiked ? 'fill-current' : ''}`} />
+                Like
+              </button>
+              <button className="flex items-center px-4 py-2 border border-gray-300 bg-white text-gray-700 rounded hover:bg-gray-50 transition-colors duration-200">
+                <Share2 className="w-4 h-4 mr-2" />
+                Share
+              </button>
+            </div>
+            <div className="text-sm text-gray-500">
+              Published: {formatDate(blogInfo?.createdAT)}
+            </div>
+          </div>
+
           {/* Author Section */}
-          <div className="mt-12 pt-8 border-t border-gray-200">
+          <div className="bg-gray-50 p-6 mb-8">
+            <h3 className="text-lg font-bold text-black mb-4">About the Author</h3>
             <div className="flex items-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center mr-4 shadow-lg">
-                <User className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mr-4">
+                <span className="text-white font-bold text-xl">
+                  {(blogInfo?.appUser?.fullName || 'A')[0].toUpperCase()}
+                </span>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-800">
-                  {blogInfo?.appUser?.fullName || "Anonymous Author"}
-                </h3>
-                <p className="text-gray-600">Content Creator & Writer</p>
+                <h4 className="text-lg font-semibold text-black">
+                  {blogInfo?.appUser?.fullName || "Staff Writer"}
+                </h4>
+                <p className="text-gray-600">Content Creator & Journalist</p>
+                <p className="text-sm text-gray-500 mt-1">
+                  Covering news and analysis for NepalNiti
+                </p>
               </div>
             </div>
           </div>
 
           {/* Comments Section */}
-          <div className="mt-12 pt-8 border-t border-gray-200">
+          <div className="border-t border-gray-200 pt-8 mb-8">
             <div className="flex items-center mb-6">
-              <MessageCircle className="w-6 h-6 text-purple-600 mr-3" />
-              <h3 className="text-2xl font-bold text-gray-800">Comments</h3>
+              <MessageCircle className="w-6 h-6 text-red-600 mr-3" />
+              <h3 className="text-2xl font-bold text-black">Comments</h3>
             </div>
             
             {blogInfo?.comments && blogInfo.comments.length > 0 ? (
@@ -243,7 +260,7 @@ const BlogDetails = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12">
+              <div className="text-center py-12 bg-gray-50">
                 <MessageCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                 <p className="text-gray-500 text-lg">No comments yet</p>
                 <p className="text-gray-400">Be the first to share your thoughts!</p>
@@ -253,19 +270,49 @@ const BlogDetails = () => {
         </div>
       </div>
 
-      {/* Related Articles CTA */}
-      <div className="max-w-4xl mx-auto px-6 pb-16">
-        <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-8 text-center text-white shadow-2xl">
-          <h3 className="text-2xl font-bold mb-4">Enjoyed this article?</h3>
-          <p className="text-lg opacity-90 mb-6">
-            Discover more amazing content and stay updated with our latest posts.
+      {/* Related Stories CTA */}
+      <div className="bg-gray-50 py-16">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h3 className="text-3xl font-bold text-black mb-4">More from NepalNiti</h3>
+          <p className="text-xl text-gray-600 mb-8">
+            Stay informed with our latest news and analysis
           </p>
-          <button
-            onClick={() => navigate('/')}
-            className="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-50 transform hover:scale-105 transition-all duration-300 shadow-lg"
-          >
-            Explore More Articles
-          </button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() => navigate('/')}
+              className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 font-semibold text-lg transition-colors duration-200"
+            >
+              Latest Stories
+            </button>
+            <button
+              onClick={() => navigate('/blogs')}
+              className="border border-gray-300 text-gray-700 px-8 py-3 font-semibold text-lg hover:bg-gray-50 transition-colors duration-200"
+            >
+              All Articles
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Newsletter Signup */}
+      <div className="bg-black py-16">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h3 className="text-3xl font-bold text-white mb-4">
+            Stay Updated
+          </h3>
+          <p className="text-xl text-gray-300 mb-8">
+            Get breaking news and analysis delivered to your inbox
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto">
+            <input 
+              type="email" 
+              placeholder="Enter your email" 
+              className="flex-1 px-4 py-3 text-black focus:outline-none focus:ring-2 focus:ring-red-600"
+            />
+            <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 font-semibold transition-colors duration-200">
+              Subscribe
+            </button>
+          </div>
         </div>
       </div>
     </div>
