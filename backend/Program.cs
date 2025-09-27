@@ -70,8 +70,18 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
+
+
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate(); 
+}
 
 if (app.Environment.IsDevelopment())
 {
@@ -83,6 +93,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapGet("/health", () => Results.Ok("ok"));
 app.UseHttpsRedirection();
 app.Run();
 
