@@ -38,11 +38,11 @@ const Header = () => {
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='flex items-center justify-between py-2'>
             <div className='flex items-center space-x-4'>
-              <span>Nepal</span>
+              <span className='cursor-pointer'>Nepal</span>
               <span className='text-gray-400'>|</span>
-              <span>Politics</span>
+              <span className='cursor-pointer'>Politics</span>
               <span className='text-gray-400'>|</span>
-              <span>News</span>
+              <span className=' cursor-pointer'>News</span>
             </div>
             <div className='hidden sm:flex items-center space-x-4'>
               <span>Sign in</span>
