@@ -69,207 +69,242 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
-          <p className="text-gray-600 font-medium">Loading amazing content...</p>
+          <div className="w-16 h-16 border-4 border-gray-200 border-t-red-600 rounded-full animate-spin"></div>
+          <p className="text-gray-600 font-medium">Loading content...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 px-6">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-blue-600/10"></div>
-        <div className="relative max-w-7xl mx-auto text-center">
-          <div className="inline-flex items-center bg-white/80 backdrop-blur-sm rounded-full px-6 py-2 mb-8 shadow-lg border border-white/20">
-            <Star className="w-4 h-4 text-yellow-500 mr-2" />
-            <span className="text-sm font-medium text-gray-700">Featured Blog Platform</span>
-          </div>
-          
-          <h1 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent mb-6 leading-tight">
-            Discover Stories That
-            <br />
-            <span className="text-gradient animate-pulse">Inspire & Inform</span>
-          </h1>
-          
-          <p className="text-xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
-            Join thousands of readers exploring cutting-edge insights, tutorials, and stories from industry experts across technology, design, and innovation.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="group bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center" onClick={(e)=>{startReading(e)}}>
-              Start Reading
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button className="bg-white/80 backdrop-blur-sm text-gray-700 px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border border-white/20">
-              Explore Categories
-            </button>
+      <section className="bg-gray-50 py-16 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="inline-flex items-center bg-red-100 rounded px-3 py-1 mb-6">
+                <div className="w-2 h-2 bg-red-600 rounded-full mr-2"></div>
+                <span className="text-sm font-medium text-red-700 uppercase tracking-wide">Breaking News</span>
+              </div>
+              
+              <h1 className="text-5xl md:text-6xl font-bold text-black mb-6 leading-tight">
+                Stay Informed
+                <br />
+                <span className="text-red-600">Stay Ahead</span>
+              </h1>
+              
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                Your trusted source for breaking news, in-depth analysis, and expert insights on politics, technology, and global affairs.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 font-semibold text-lg transition-colors duration-200 flex items-center justify-center" onClick={(e)=>{startReading(e)}}>
+                  Start Reading
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </button>
+                <button className="border border-gray-300 text-gray-700 px-8 py-3 font-semibold text-lg hover:bg-gray-50 transition-colors duration-200">
+                  Explore Topics
+                </button>
+              </div>
+            </div>
+            
+            <div className="relative">
+              <div className="bg-red-600 p-8 text-white">
+                <h3 className="text-2xl font-bold mb-4">Latest Headlines</h3>
+                <div className="space-y-4">
+                  <div className="border-l-4 border-white pl-4">
+                    <h4 className="font-semibold mb-1">Breaking: Technology Innovation Summit 2025</h4>
+                    <p className="text-red-100 text-sm">2 hours ago</p>
+                  </div>
+                  <div className="border-l-4 border-red-300 pl-4">
+                    <h4 className="font-semibold mb-1">Global Climate Action Reaches New Milestone</h4>
+                    <p className="text-red-100 text-sm">4 hours ago</p>
+                  </div>
+                  <div className="border-l-4 border-red-300 pl-4">
+                    <h4 className="font-semibold mb-1">Economic Markets Show Strong Recovery</h4>
+                    <p className="text-red-100 text-sm">6 hours ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        
- 
-        <div className="absolute top-20 left-10 w-20 h-20 bg-purple-200 rounded-full opacity-60 animate-bounce"></div>
-        <div className="absolute top-40 right-20 w-16 h-16 bg-blue-200 rounded-full opacity-60 animate-bounce" style={{animationDelay: '1s'}}></div>
-        <div className="absolute bottom-20 left-20 w-12 h-12 bg-indigo-200 rounded-full opacity-60 animate-bounce" style={{animationDelay: '2s'}}></div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-6">
+      <section className="py-16 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-300">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl mb-4">
+            <div className="border-r border-gray-200 last:border-r-0 pr-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-red-600 mb-4">
                 <BookOpen className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-3xl font-bold text-gray-800 mb-2">500+</h3>
-              <p className="text-gray-600">Published Articles</p>
+              <h3 className="text-3xl font-bold text-black mb-2">500+</h3>
+              <p className="text-gray-600 text-sm uppercase tracking-wide">Published Articles</p>
             </div>
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-300">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl mb-4">
+            <div className="border-r border-gray-200 last:border-r-0 pr-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-red-600 mb-4">
                 <Users className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-3xl font-bold text-gray-800 mb-2">10K+</h3>
-              <p className="text-gray-600">Active Readers</p>
+              <h3 className="text-3xl font-bold text-black mb-2">10K+</h3>
+              <p className="text-gray-600 text-sm uppercase tracking-wide">Daily Readers</p>
             </div>
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-300">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl mb-4">
+            <div>
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-red-600 mb-4">
                 <TrendingUp className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-3xl font-bold text-gray-800 mb-2">50+</h3>
-              <p className="text-gray-600">Expert Authors</p>
+              <h3 className="text-3xl font-bold text-black mb-2">50+</h3>
+              <p className="text-gray-600 text-sm uppercase tracking-wide">Expert Journalists</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Featured Articles */}
-      <section className="py-16 px-6">
+      <section className="py-16 px-6 bg-gray-50">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
-              Featured <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Articles</span>
+          <div className="mb-12">
+            <h2 className="text-4xl font-bold text-black mb-4">
+              <span className="text-red-600">Featured</span> Stories
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Dive into our most popular and trending content, carefully curated for curious minds.
+            <div className="w-16 h-1 bg-red-600 mb-4"></div>
+            <p className="text-xl text-gray-600 max-w-2xl">
+              Essential reading from our newsroom, covering the stories that matter most.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {blogData.map((item, index) => (
               <article 
                 key={item.id}
                 onClick={()=>handleClick(item.id)}
-                className="group bg-white/80 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl border border-white/20 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500"
+                className="bg-white border-b-4 border-gray-200 hover:border-red-600 transition-all duration-200 cursor-pointer group"
                 onMouseEnter={() => setHoveredCard(item.id)}
                 onMouseLeave={() => setHoveredCard(null)}
-                style={{
-                  animationDelay: `${index * 150}ms`,
-                  animation: 'fadeInUp 0.6s ease-out forwards'
-                }}
               >
-                <div className="h-48 bg-gradient-to-br from-purple-400 via-blue-500 to-indigo-600 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-black/20"></div>
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-white/90 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
-                      {item.genre || 'Article'}
+                <div className="h-48 bg-gray-200 relative overflow-hidden">
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="bg-red-600 text-white px-3 py-1 text-xs font-semibold uppercase tracking-wide">
+                      {item.genre || 'News'}
                     </span>
                   </div>
-
-                  <img src={item.imageUrl} alt="" />
-                  {/* <div className="absolute inset-0 flex items-center justify-center">
-                      
-                  </div> */}
+                  {item.imageUrl ? (
+                    <img 
+                      src={item.imageUrl} 
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                      <BookOpen className="w-12 h-12 text-gray-400" />
+                    </div>
+                  )}
                 </div>
                 
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-purple-600 transition-colors line-clamp-2">
+                  <h3 className="text-xl font-bold text-black mb-3 group-hover:text-red-600 transition-colors line-clamp-2">
                     {item.title}
                   </h3>
-                  <p className="text-gray-600 mb-4 line-clamp-3">
+                  <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
                     {item.content}
                   </p>
                   
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4 pb-4 border-b border-gray-100">
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center">
                         <Clock className="w-4 h-4 mr-1" />
-                        {`${item.readTime|| 5 } min read`}
+                        {`${item.readTime || 5} min`}
                       </div>
                       <div className="flex items-center">
                         <Eye className="w-4 h-4 mr-1" />
                         {item.views || '1.2k'}
                       </div>
                     </div>
-                    <Heart className="w-4 h-4 hover:text-red-500 cursor-pointer transition-colors" />
                   </div>
                   
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-700">
-                      By {item?.appUser?.fullName || 'Anonymous'}
-                    </span>
-                    <button className="flex items-center text-purple-600 hover:text-purple-700 font-medium text-sm group-hover:translate-x-1 transition-transform">
-                      Read More
-                      <ChevronRight className="w-4 h-4 ml-1" />
-                    </button>
+                    <div className="flex items-center text-sm">
+                      <div className="w-8 h-8 bg-gray-300 rounded-full mr-3"></div>
+                      <div>
+                        <p className="font-medium text-gray-900">
+                          {item?.appUser?.fullName || 'Staff Writer'}
+                        </p>
+                        <p className="text-gray-500 text-xs">
+                          {new Date(item.createdAT || Date.now()).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-red-600 transition-colors" />
                   </div>
                 </div>
               </article>
             ))}
           </div>
 
-          <div className="text-center mt-12">
-            <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center mx-auto" onClick={handleArticle} >
-              View All Articles
+          <div className="mt-12">
+            <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 font-semibold text-lg transition-colors duration-200 flex items-center" onClick={handleArticle}>
+              View All Stories
               <ArrowRight className="ml-2 w-5 h-5" />
             </button>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-6">
+      {/* Newsletter Section */}
+      <section className="py-16 px-6 bg-black text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-12 text-white relative overflow-hidden shadow-2xl">
-            <div className="absolute top-0 left-0 w-full h-full bg-white/10 backdrop-blur-sm"></div>
-            <div className="relative z-10">
-              <h2 className="text-4xl font-bold mb-6">
-                Ready to Start Your Journey?
-              </h2>
-              <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-                Join our community of curious minds and never miss out on the latest insights, tutorials, and stories.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-50 transform hover:scale-105 transition-all duration-300 shadow-lg">
-                  Subscribe Now
-                </button>
-                <button className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-purple-600 transform hover:scale-105 transition-all duration-300">
-                  Learn More
-                </button>
+          <h2 className="text-4xl font-bold mb-6">
+            Stay Updated
+          </h2>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Get the latest news and analysis delivered straight to your inbox. Join thousands of informed readers.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto">
+            <input 
+              type="email" 
+              placeholder="Enter your email" 
+              className="flex-1 px-4 py-3 text-black border-0 focus:outline-none"
+            />
+            <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 font-semibold transition-colors duration-200">
+              Subscribe
+            </button>
+          </div>
+          <p className="text-sm text-gray-400 mt-4">
+            No spam, unsubscribe at any time
+          </p>
+        </div>
+      </section>
+
+      {/* Topics Section */}
+      <section className="py-16 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-black mb-8">More from NepalNiti</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: "Politics", count: "156 articles", color: "bg-red-600" },
+              { title: "Technology", count: "89 articles", color: "bg-blue-600" },
+              { title: "Business", count: "203 articles", color: "bg-green-600" },
+              { title: "Culture", count: "127 articles", color: "bg-purple-600" }
+            ].map((topic, index) => (
+              <div key={index} className="border border-gray-200 p-6 hover:bg-gray-50 transition-colors duration-200 cursor-pointer">
+                <div className={`w-12 h-12 ${topic.color} mb-4 flex items-center justify-center`}>
+                  <div className="w-6 h-6 bg-white"></div>
+                </div>
+                <h3 className="text-xl font-bold text-black mb-2">{topic.title}</h3>
+                <p className="text-gray-600 text-sm">{topic.count}</p>
+                <div className="mt-4 flex items-center text-red-600 font-medium">
+                  Explore <ChevronRight className="w-4 h-4 ml-1" />
+                </div>
               </div>
-            </div>
-            
-            {/* Decorative elements */}
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full"></div>
-            <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white/10 rounded-full"></div>
+            ))}
           </div>
         </div>
       </section>
 
       <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
         .line-clamp-2 {
           display: -webkit-box;
           -webkit-line-clamp: 2;
