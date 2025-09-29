@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff, User, Mail, Lock, UserPlus, LogIn, Sparkles, Shield } from 'lucide-react';
+import { Eye, EyeOff, User, Mail, Lock, UserPlus, LogIn, AlertCircle, Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const api = "https://fullstack-blog-app-l5ph.onrender.com";
@@ -42,8 +42,6 @@ const Register = () => {
         formData.append("username", user)
         formData.append("email", email)
         formData.append("password", pass)
-        formData.append("profilePicture", pic)
-
 
         try {
             const response = await fetch(api + "/account/register", {
@@ -77,88 +75,78 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-            {/* Background Elements */}
-            <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute top-20 left-10 w-20 h-20 bg-purple-200 rounded-full opacity-60 animate-bounce"></div>
-                <div className="absolute top-40 right-20 w-16 h-16 bg-blue-200 rounded-full opacity-60 animate-bounce" style={{animationDelay: '1s'}}></div>
-                <div className="absolute bottom-20 left-20 w-12 h-12 bg-indigo-200 rounded-full opacity-60 animate-bounce" style={{animationDelay: '2s'}}></div>
-                <div className="absolute bottom-40 right-10 w-24 h-24 bg-pink-200 rounded-full opacity-40 animate-bounce" style={{animationDelay: '0.5s'}}></div>
-                <div className="absolute top-1/2 left-1/4 w-8 h-8 bg-cyan-200 rounded-full opacity-50 animate-bounce" style={{animationDelay: '1.5s'}}></div>
-            </div>
-
-            <div className="relative max-w-md w-full space-y-8">
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-md w-full space-y-8">
                 {/* Header Section */}
                 <div className="text-center">
                     {/* Logo */}
-                    <div className="mx-auto w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-600 rounded-3xl flex items-center justify-center shadow-2xl mb-6 transform hover:scale-110 transition-all duration-300">
-                        <Shield className="w-10 h-10 text-white animate-pulse" />
+                    <div className="mx-auto w-16 h-16 bg-red-600 flex items-center justify-center shadow-md mb-6">
+                        <span className="text-white font-bold text-2xl">N</span>
                     </div>
                     
-                    <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
-                        Join Our Community
+                    <h2 className="text-4xl font-bold text-black mb-2">
+                        Create Account
                     </h2>
                     <p className="text-gray-600 text-lg">
-                        Create your account and start exploring
+                        Join NepalNiti today
                     </p>
                 </div>
 
                 {/* Registration Form */}
-                <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-8 space-y-6">
+                <div className="bg-white shadow-sm border border-gray-200 p-8 space-y-6">
                     {error && (
-                        <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded-lg">
+                        <div className="bg-red-50 border-l-4 border-red-600 p-4">
                             <div className="flex">
                                 <div className="flex-shrink-0">
-                                    <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                                    </svg>
+                                    <AlertCircle className="h-5 w-5 text-red-600" />
                                 </div>
                                 <div className="ml-3">
-                                    <p className="text-sm text-red-700 font-medium">{error}</p>
+                                    <p className="text-sm text-red-800 font-medium">{error}</p>
                                 </div>
                             </div>
                         </div>
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-6">
+                        {/* Full Name Field */}
+                        <div className="space-y-2">
+                            <label htmlFor="name" className="block text-sm font-semibold text-gray-700">
+                                Full Name
+                            </label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <User className="h-5 w-5 text-gray-400" />
+                                </div>
+                                <input
+                                    type="text"
+                                    required
+                                    id="name"
+                                    placeholder="John Doe"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent placeholder-gray-400 text-gray-900 transition-all duration-200"
+                                    disabled={isLoading}
+                                />
+                            </div>
+                        </div>
+
                         {/* Username Field */}
                         <div className="space-y-2">
                             <label htmlFor="username" className="block text-sm font-semibold text-gray-700">
                                 Username
                             </label>
-                            <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                    <User className="h-5 w-5 text-gray-400 group-focus-within:text-purple-500 transition-colors duration-300" />
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <User className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
                                     type="text"
                                     required
                                     id="username"
-                                    placeholder="itsjohn"
+                                    placeholder="johndoe123"
                                     value={user}
                                     onChange={(e) => setUser(e.target.value)}
-                                    className="block w-full pl-12 pr-4 py-4 border border-gray-200 rounded-2xl bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-400 text-gray-900 transition-all duration-300 hover:bg-white focus:bg-white"
-                                    disabled={isLoading}
-                                />
-                            </div>
-                        </div>
-                        {/* full name field */}
-                         <div className="space-y-2">
-                            <label htmlFor="name" className="block text-sm font-semibold text-gray-700">
-                                Full Name
-                            </label>
-                            <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                    <User className="h-5 w-5 text-gray-400 group-focus-within:text-purple-500 transition-colors duration-300" />
-                                </div>
-                                <input
-                                    type="text"
-                                    required
-                                    id="username"
-                                    placeholder="John Doe"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    className="block w-full pl-12 pr-4 py-4 border border-gray-200 rounded-2xl bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-400 text-gray-900 transition-all duration-300 hover:bg-white focus:bg-white"
+                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent placeholder-gray-400 text-gray-900 transition-all duration-200"
                                     disabled={isLoading}
                                 />
                             </div>
@@ -169,39 +157,18 @@ const Register = () => {
                             <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
                                 Email Address
                             </label>
-                            <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                    <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-purple-500 transition-colors duration-300" />
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <Mail className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
                                     type="email"
                                     required
                                     id="email"
-                                    placeholder="abc@gmail.com"
+                                    placeholder="john@example.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="block w-full pl-12 pr-4 py-4 border border-gray-200 rounded-2xl bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-400 text-gray-900 transition-all duration-300 hover:bg-white focus:bg-white"
-                                    disabled={isLoading}
-                                />
-                            </div>
-                        </div>
-                        {/* profile picture field */}
-                        <div className="space-y-2">
-                            <label htmlFor="pic" className="block text-sm font-semibold text-gray-700">
-                                Profile Picture
-                            </label>
-                            <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                    <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-purple-500 transition-colors duration-300" />
-                                </div>
-                                <input
-                                    type="file"
-                                    required
-                                    id="pic"
-                                    placeholder="abc@gmail.com"
-                                    value={pic}
-                                    onChange={(e) => setPic(e.target.value)}
-                                    className="block w-full pl-12 pr-4 py-4 border border-gray-200 rounded-2xl bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-400 text-gray-900 transition-all duration-300 hover:bg-white focus:bg-white"
+                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent placeholder-gray-400 text-gray-900 transition-all duration-200"
                                     disabled={isLoading}
                                 />
                             </div>
@@ -212,24 +179,24 @@ const Register = () => {
                             <label htmlFor="password" className="block text-sm font-semibold text-gray-700">
                                 Password
                             </label>
-                            <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                    <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-purple-500 transition-colors duration-300" />
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <Lock className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     required
                                     id="password"
-                                    placeholder="Enter your password"
+                                    placeholder="Create a strong password"
                                     value={pass}
                                     onChange={(e) => setPass(e.target.value)}
-                                    className="block w-full pl-12 pr-12 py-4 border border-gray-200 rounded-2xl bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-400 text-gray-900 transition-all duration-300 hover:bg-white focus:bg-white"
+                                    className="block w-full pl-10 pr-10 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent placeholder-gray-400 text-gray-900 transition-all duration-200"
                                     disabled={isLoading}
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-purple-600 transition-colors duration-300"
+                                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
                                 >
                                     {showPassword ? (
                                         <EyeOff className="h-5 w-5" />
@@ -239,7 +206,21 @@ const Register = () => {
                                 </button>
                             </div>
                             <p className="text-xs text-gray-500 mt-1">
-                                Password must be at least 6 characters long
+                                Must be at least 6 characters
+                            </p>
+                        </div>
+
+                        {/* Terms Agreement */}
+                        <div className="bg-gray-50 p-4 border border-gray-200">
+                            <p className="text-xs text-gray-600">
+                                By creating an account, you agree to NepalNiti's{' '}
+                                <a href="#" className="text-red-600 hover:text-red-700 font-medium">
+                                    Terms of Service
+                                </a>{' '}
+                                and{' '}
+                                <a href="#" className="text-red-600 hover:text-red-700 font-medium">
+                                    Privacy Policy
+                                </a>
                             </p>
                         </div>
 
@@ -247,20 +228,20 @@ const Register = () => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className={`group relative w-full flex justify-center items-center py-4 px-6 border border-transparent text-lg font-semibold rounded-2xl text-white transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl ${
+                            className={`w-full flex justify-center items-center py-3 px-4 border border-transparent text-base font-semibold text-white transition-colors duration-200 ${
                                 isLoading
                                     ? 'bg-gray-400 cursor-not-allowed'
-                                    : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700'
+                                    : 'bg-red-600 hover:bg-red-700'
                             }`}
                         >
                             {isLoading ? (
                                 <>
-                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
+                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
                                     Creating account...
                                 </>
                             ) : (
                                 <>
-                                    <UserPlus className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-300" />
+                                    <UserPlus className="w-5 h-5 mr-2" />
                                     Create Account
                                 </>
                             )}
@@ -268,43 +249,56 @@ const Register = () => {
                     </form>
 
                     {/* Login Link */}
-                    <div className="text-center pt-6 border-t border-gray-100">
+                    <div className="text-center pt-6 border-t border-gray-200">
                         <p className="text-gray-600 text-sm mb-3">
                             Already have an account?
                         </p>
                         <button
                             onClick={() => navigate('/login')}
-                            className="group inline-flex items-center text-purple-600 hover:text-purple-700 font-semibold text-sm transition-all duration-300 hover:scale-105"
+                            className="inline-flex items-center text-red-600 hover:text-red-700 font-semibold text-sm transition-colors duration-200"
                         >
-                            <LogIn className="w-4 h-4 mr-1 group-hover:translate-x-0.5 transition-transform duration-300" />
-                            Sign in here
+                            <LogIn className="w-4 h-4 mr-1" />
+                            Sign in
                         </button>
                     </div>
+                </div>
 
-                    {/* Features */}
-                    <div className="pt-4">
-                        <div className="flex items-center justify-center space-x-8 text-xs text-gray-500">
-                            <div className="flex items-center">
-                                <Shield className="w-3 h-3 mr-1" />
-                                Secure
-                            </div>
-                            <div className="flex items-center">
-                                <Sparkles className="w-3 h-3 mr-1" />
-                                Free Forever
-                            </div>
-                            <div className="flex items-center">
-                                <User className="w-3 h-3 mr-1" />
-                                Easy Setup
-                            </div>
+                {/* Security Notice */}
+                <div className="bg-gray-100 border border-gray-200 p-4">
+                    <div className="flex items-start">
+                        <Shield className="w-5 h-5 text-gray-600 mr-3 flex-shrink-0 mt-0.5" />
+                        <div>
+                            <h4 className="text-sm font-semibold text-gray-900 mb-1">
+                                Your Data is Protected
+                            </h4>
+                            <p className="text-xs text-gray-600">
+                                We use industry-standard encryption to protect your personal information and never share your data with third parties.
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                {/* Footer */}
-                <div className="text-center">
-                    <p className="text-gray-500 text-sm">
-                        By creating an account, you agree to our Terms & Privacy Policy
-                    </p>
+                {/* Benefits */}
+                <div className="bg-white border border-gray-200 p-6">
+                    <h3 className="text-sm font-bold text-black mb-4">What you get with NepalNiti:</h3>
+                    <ul className="space-y-2 text-sm text-gray-700">
+                        <li className="flex items-start">
+                            <span className="text-red-600 mr-2">✓</span>
+                            Access to breaking news and in-depth analysis
+                        </li>
+                        <li className="flex items-start">
+                            <span className="text-red-600 mr-2">✓</span>
+                            Personalized content recommendations
+                        </li>
+                        <li className="flex items-start">
+                            <span className="text-red-600 mr-2">✓</span>
+                            Comment on articles and join discussions
+                        </li>
+                        <li className="flex items-start">
+                            <span className="text-red-600 mr-2">✓</span>
+                            Save articles for later reading
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
