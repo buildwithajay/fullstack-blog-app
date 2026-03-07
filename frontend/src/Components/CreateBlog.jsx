@@ -1,96 +1,126 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Upload, FileText, Clock, Tag, Image as ImageIcon, Save } from 'lucide-react';
 import { getAuthToken } from '../Auth/Auth';
 
+const CATEGORY_OPTIONS = [
+  'Politics',
+  'Technology',
+  'Business',
+  'Science',
+  'Health',
+  'Sports',
+  'Culture',
+  'Environment',
+  'Opinion',
+  'Other',
+];
+
 const CreateBlog = () => {
-  let [title, setTitle] = useState("");
-  let [content, setContent] = useState("");
-  let [genre, setGenre] = useState("");
-  let [image, setImage] = useState("");
-  let [readTime, setReadTime] = useState()
-  let [isLoading, setIsLoading] = useState(false)
-  let [imagePreview, setImagePreview] = useState(null);
-  let navigate = useNavigate();
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('Politics');
+  const [customCategory, setCustomCategory] = useState('');
+  const [image, setImage] = useState('');
+  const [readTime, setReadTime] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
+
+  const finalCategory = useMemo(() => {
+    if (selectedCategory === 'Other') {
+      return customCategory.trim();
+    }
+    return selectedCategory;
+  }, [selectedCategory, customCategory]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
-    
-    // Create preview
+
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
+      reader.onloadend = () => setImagePreview(reader.result);
       reader.readAsDataURL(file);
     }
   };
 
   const handleClick = async (e) => {
     e.preventDefault();
-    setIsLoading(true)
+    setErrorMessage('');
+
+    if (!image) {
+      setErrorMessage('Featured image is required.');
+      return;
+    }
+
+    if (!finalCategory) {
+      setErrorMessage('Please select or add a category.');
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
-      if(!image) return
+      const imageData = new FormData();
+      imageData.append('file', image);
+      imageData.append('upload_preset', 'image-store');
+      imageData.append('cloud_name', 'dkc0tn86f');
 
-      let imageData = new FormData()
-      imageData.append('file', image)
-      imageData.append('upload_preset', "image-store")
-      imageData.append('cloud_name', "dkc0tn86f")
-
-      let postImage = await fetch("https://api.cloudinary.com/v1_1/dkc0tn86f/image/upload", {
-        method: "POST",
-        body: imageData
-      })
+      const postImage = await fetch('https://api.cloudinary.com/v1_1/dkc0tn86f/image/upload', {
+        method: 'POST',
+        body: imageData,
+      });
       const uploadImageUrl = await postImage.json();
-      console.log(uploadImageUrl.secure_url)
 
-      let post = await fetch("https://fullstack-blog-app-l5ph.onrender.com/blog", {
-        method: "POST",
+      const post = await fetch('https://fullstack-blog-app-l5ph.onrender.com/blog', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${getAuthToken()}`
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
-          "title": title,
-          "content": content,
-          "genre": genre, 
-          "imageUrl": uploadImageUrl.secure_url,
-          "readTime": readTime,
-        })
-      })
-      let data = await post.json()
-      if(post.ok) {
-        console.log("post created", data);
-        navigate("/dashboard")
-        setIsLoading(false);
-      } else {
-        console.log("failed to create post")
-      }
-    } catch(e) {
-      console.log('error connecting to backend', e)
-    }
-  }
+          title,
+          content,
+          genre: finalCategory,
+          imageUrl: uploadImageUrl.secure_url,
+          readTime: Number(readTime),
+        }),
+      });
 
-  if(isLoading) {
+      if (post.ok) {
+        navigate('/dashboard');
+        return;
+      }
+
+      const data = await post.json();
+      setErrorMessage(data?.message || 'Failed to create post.');
+    } catch (error) {
+      setErrorMessage('Error connecting to backend. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#f5f5f8] flex items-center justify-center">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-16 h-16 border-4 border-gray-200 border-t-red-600 rounded-full animate-spin"></div>
-          <p className="text-gray-600 font-medium">Publishing article...</p>
+          <div className="w-16 h-16 border-4 border-slate-200 border-t-[#d81224] rounded-full animate-spin"></div>
+          <p className="text-slate-600 font-medium">Publishing article...</p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+    <div className="min-h-screen bg-[#f5f5f8]">
+      <div className="bg-white border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <button
-            onClick={() => navigate("/dashboard")}
-            className="inline-flex items-center text-gray-600 hover:text-red-600 transition-colors duration-200"
+            onClick={() => navigate('/dashboard')}
+            className="inline-flex items-center text-slate-600 hover:text-[#0a2a8a] transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Dashboard
@@ -98,75 +128,81 @@ const CreateBlog = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-black mb-2">
-            Create New Article
-          </h1>
-          <div className="w-16 h-1 bg-red-600"></div>
+          <h1 className="text-4xl font-bold text-slate-900 mb-2">Create New Article</h1>
+          <div className="w-16 h-1 bg-[#d81224]"></div>
         </div>
 
-        <form onSubmit={handleClick} method='post' className="space-y-8">
-          {/* Title Section */}
-          <div className="bg-white border border-gray-200 p-6">
+        <form onSubmit={handleClick} method="post" className="space-y-8">
+          <div className="bg-white border border-slate-200 rounded-lg p-6">
             <div className="flex items-center mb-4">
-              <FileText className="w-5 h-5 text-red-600 mr-2" />
-              <h2 className="text-xl font-bold text-black">Article Details</h2>
+              <FileText className="w-5 h-5 text-[#0a2a8a] mr-2" />
+              <h2 className="text-xl font-bold text-slate-900">Article Details</h2>
             </div>
 
             <div className="space-y-6">
-              {/* Title */}
               <div>
-                <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-2">
+                <label htmlFor="title" className="block text-sm font-semibold text-slate-700 mb-2">
                   Article Title *
                 </label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   id="title"
-                  placeholder="Enter a compelling headline" 
-                  required 
-                  onChange={(e) => setTitle(e.target.value)} 
-                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent text-gray-900"
+                  placeholder="Enter a compelling headline"
+                  required
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-full px-4 py-3 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a2a8a]"
                 />
-                <p className="text-xs text-gray-500 mt-1">Make it clear, concise, and attention-grabbing</p>
               </div>
 
-              {/* Category and Read Time Row */}
               <div className="grid md:grid-cols-2 gap-6">
-                {/* Genre/Category */}
                 <div>
-                  <label htmlFor="genre" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="category" className="block text-sm font-semibold text-slate-700 mb-2">
                     Category *
                   </label>
                   <div className="relative">
-                    <Tag className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <input 
-                      type="text" 
-                      id="genre"
-                      placeholder="e.g. Politics, Tech, Business" 
-                      required
-                      onChange={(e) => setGenre(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent text-gray-900"
-                    />
+                    <Tag className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    <select
+                      id="category"
+                      value={selectedCategory}
+                      onChange={(e) => setSelectedCategory(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a2a8a]"
+                    >
+                      {CATEGORY_OPTIONS.map((category) => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+
+                  {selectedCategory === 'Other' && (
+                    <input
+                      type="text"
+                      placeholder="Type new category"
+                      value={customCategory}
+                      onChange={(e) => setCustomCategory(e.target.value)}
+                      className="mt-3 w-full px-4 py-3 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a2a8a]"
+                      required
+                    />
+                  )}
                 </div>
 
-                {/* Read Time */}
                 <div>
-                  <label htmlFor="readtime" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="readtime" className="block text-sm font-semibold text-slate-700 mb-2">
                     Read Time (minutes) *
                   </label>
                   <div className="relative">
-                    <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <input 
-                      type="number" 
+                    <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    <input
+                      type="number"
                       id="readtime"
-                      placeholder="5" 
-                      required 
+                      placeholder="5"
+                      required
                       min="1"
-                      onChange={(e) => setReadTime(e.target.value)} 
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent text-gray-900"
+                      onChange={(e) => setReadTime(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a2a8a]"
                     />
                   </div>
                 </div>
@@ -174,107 +210,64 @@ const CreateBlog = () => {
             </div>
           </div>
 
-          {/* Content Section */}
-          <div className="bg-white border border-gray-200 p-6">
+          <div className="bg-white border border-slate-200 rounded-lg p-6">
             <div className="flex items-center mb-4">
-              <FileText className="w-5 h-5 text-red-600 mr-2" />
-              <h2 className="text-xl font-bold text-black">Article Content</h2>
+              <FileText className="w-5 h-5 text-[#0a2a8a] mr-2" />
+              <h2 className="text-xl font-bold text-slate-900">Article Content</h2>
             </div>
 
-            <div>
-              <label htmlFor="content" className="block text-sm font-semibold text-gray-700 mb-2">
-                Content *
-              </label>
-              <textarea 
-                name="content" 
-                id="content" 
-                rows="12"
-                required
-                minLength={20}
-                placeholder="Write your article content here. Provide detailed, well-researched information..."
-                className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent text-gray-900 resize-none"
-                onChange={(e) => setContent(e.target.value)}
-              ></textarea>
-              <p className="text-xs text-gray-500 mt-1">Minimum 20 characters required</p>
-            </div>
+            <label htmlFor="content" className="block text-sm font-semibold text-slate-700 mb-2">
+              Content *
+            </label>
+            <textarea
+              name="content"
+              id="content"
+              rows="12"
+              required
+              minLength={20}
+              placeholder="Write your article content here..."
+              className="w-full px-4 py-3 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0a2a8a] resize-none"
+              onChange={(e) => setContent(e.target.value)}
+            ></textarea>
           </div>
 
-          {/* Image Upload Section */}
-          <div className="bg-white border border-gray-200 p-6">
+          <div className="bg-white border border-slate-200 rounded-lg p-6">
             <div className="flex items-center mb-4">
-              <ImageIcon className="w-5 h-5 text-red-600 mr-2" />
-              <h2 className="text-xl font-bold text-black">Featured Image</h2>
+              <ImageIcon className="w-5 h-5 text-[#0a2a8a] mr-2" />
+              <h2 className="text-xl font-bold text-slate-900">Featured Image</h2>
             </div>
 
-            <div>
-              <label htmlFor="image" className="block text-sm font-semibold text-gray-700 mb-2">
-                Upload Image *
-              </label>
-              
-              {/* Image Preview */}
-              {imagePreview && (
-                <div className="mb-4">
-                  <img 
-                    src={imagePreview} 
-                    alt="Preview" 
-                    className="w-full h-64 object-cover border border-gray-300"
-                  />
-                </div>
-              )}
-
-              <div className="border-2 border-dashed border-gray-300 hover:border-red-600 transition-colors duration-200">
-                <label htmlFor="image" className="flex flex-col items-center justify-center py-8 cursor-pointer">
-                  <Upload className="w-12 h-12 text-gray-400 mb-2" />
-                  <span className="text-sm font-medium text-gray-700">Click to upload image</span>
-                  <span className="text-xs text-gray-500 mt-1">PNG, JPG, GIF up to 10MB</span>
-                </label>
-                <input 
-                  type="file" 
-                  id="image"
-                  accept="image/*"
-                  required
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
+            {imagePreview && (
+              <div className="mb-4">
+                <img src={imagePreview} alt="Preview" className="w-full h-64 object-cover rounded-md border border-slate-300" />
               </div>
+            )}
+
+            <div className="border-2 border-dashed border-slate-300 hover:border-[#0a2a8a] transition-colors rounded-lg">
+              <label htmlFor="image" className="flex flex-col items-center justify-center py-8 cursor-pointer">
+                <Upload className="w-12 h-12 text-slate-400 mb-2" />
+                <span className="text-sm font-medium text-slate-700">Click to upload image</span>
+                <span className="text-xs text-slate-500 mt-1">PNG, JPG, GIF up to 10MB</span>
+              </label>
+              <input type="file" id="image" accept="image/*" required className="hidden" onChange={handleImageChange} />
             </div>
           </div>
 
-          {/* Publishing Guidelines */}
-          <div className="bg-gray-100 border border-gray-200 p-6">
-            <h3 className="text-sm font-bold text-black mb-3">Publishing Guidelines</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li className="flex items-start">
-                <span className="text-red-600 mr-2">•</span>
-                Ensure all facts are verified and properly sourced
-              </li>
-              <li className="flex items-start">
-                <span className="text-red-600 mr-2">•</span>
-                Use clear, professional language appropriate for your audience
-              </li>
-              <li className="flex items-start">
-                <span className="text-red-600 mr-2">•</span>
-                Include relevant keywords for better discoverability
-              </li>
-              <li className="flex items-start">
-                <span className="text-red-600 mr-2">•</span>
-                Choose a high-quality featured image that represents your content
-              </li>
-            </ul>
-          </div>
+          {errorMessage && (
+            <div className="bg-red-50 text-red-700 border border-red-200 rounded-md px-4 py-3 text-sm">{errorMessage}</div>
+          )}
 
-          {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4">
-            <button 
+            <button
               type="button"
-              onClick={() => navigate("/dashboard")}
-              className="flex-1 px-6 py-3 border border-gray-300 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition-colors duration-200"
+              onClick={() => navigate('/dashboard')}
+              className="flex-1 px-6 py-3 border border-slate-300 bg-white text-slate-700 font-semibold rounded-md hover:bg-slate-50 transition-colors"
             >
               Cancel
             </button>
-            <button 
-              type="submit" 
-              className="flex-1 px-6 py-3 bg-red-600 text-white font-semibold hover:bg-red-700 transition-colors duration-200 flex items-center justify-center"
+            <button
+              type="submit"
+              className="flex-1 px-6 py-3 bg-[#d81224] text-white font-semibold rounded-md hover:bg-[#b60f1e] transition-colors flex items-center justify-center"
             >
               <Save className="w-5 h-5 mr-2" />
               Publish Article
@@ -283,7 +276,7 @@ const CreateBlog = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default CreateBlog;
