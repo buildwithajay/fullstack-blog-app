@@ -1,7 +1,4 @@
-import { useEffect, useState } from 'react'
-
 import Header from "./Shared/Header"
-import Footer from './Shared/Footer'
 import Home from './Components/Home';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import About from './Components/About';
@@ -17,17 +14,11 @@ import BlogDetails from './Pages/BlogDetails';
 
 
 function App() {
-
-
-  
-
-
   return (
     <>
-        <Router >
+      <Router>
         <Header/>
-   
-          <Routes>
+        <Routes>
         <Route path="/" element={<Home />} />
          <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
@@ -43,9 +34,8 @@ function App() {
           <Route path='/register' element={<Register/>}/>
           <Route path="/blogs" element={<Blog />} />
         
-      </Routes>
-        </Router>
-      
+        </Routes>
+      </Router>
     </>
   )
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+J3fLzhTbxQ=",
+  "dgSpecHash": "qiRyL0VYq/Y=",
   "success": true,
-  "projectFilePath": "/Users/ajaypaudel/Programming/DotnetProject/backend/backend.csproj",
+  "projectFilePath": "/Users/ajaypaudel/Desktop/fullstack-blog-app/backend/backend.csproj",
   "expectedPackageFiles": [
     "/Users/ajaypaudel/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/ajaypaudel/.nuget/packages/microsoft.aspnetcore.authentication.google/9.0.9/microsoft.aspnetcore.authentication.google.9.0.9.nupkg.sha512",
@@ -68,7 +68,10 @@
     "/Users/ajaypaudel/.nuget/packages/system.reflection.metadata/7.0.0/system.reflection.metadata.7.0.0.nupkg.sha512",
     "/Users/ajaypaudel/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "/Users/ajaypaudel/.nuget/packages/system.text.json/9.0.8/system.text.json.9.0.8.nupkg.sha512",
-    "/Users/ajaypaudel/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512"
+    "/Users/ajaypaudel/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512",
+    "/Users/ajaypaudel/.nuget/packages/microsoft.netcore.app.ref/9.0.11/microsoft.netcore.app.ref.9.0.11.nupkg.sha512",
+    "/Users/ajaypaudel/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.11/microsoft.aspnetcore.app.ref.9.0.11.nupkg.sha512",
+    "/Users/ajaypaudel/.nuget/packages/microsoft.netcore.app.host.osx-arm64/9.0.11/microsoft.netcore.app.host.osx-arm64.9.0.11.nupkg.sha512"
   ],
   "logs": []
 }

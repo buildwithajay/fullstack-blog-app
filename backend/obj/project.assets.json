@@ -3734,11 +3734,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ajaypaudel/Programming/DotnetProject/backend/backend.csproj",
+      "projectUniqueName": "/Users/ajaypaudel/Desktop/fullstack-blog-app/backend/backend.csproj",
       "projectName": "backend",
-      "projectPath": "/Users/ajaypaudel/Programming/DotnetProject/backend/backend.csproj",
+      "projectPath": "/Users/ajaypaudel/Desktop/fullstack-blog-app/backend/backend.csproj",
       "packagesPath": "/Users/ajaypaudel/.nuget/packages/",
-      "outputPath": "/Users/ajaypaudel/Programming/DotnetProject/backend/obj/",
+      "outputPath": "/Users/ajaypaudel/Desktop/fullstack-blog-app/backend/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/ajaypaudel/.nuget/NuGet/NuGet.Config"
@@ -3765,7 +3765,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net9.0": {
@@ -3827,6 +3827,20 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[9.0.11, 9.0.11]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.osx-arm64",
+            "version": "[9.0.11, 9.0.11]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[9.0.11, 9.0.11]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -3835,7 +3849,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
