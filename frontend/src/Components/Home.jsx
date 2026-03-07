@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ArrowRight, Bookmark, CloudSun, Flame, Home as HomeIcon, TrendingUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { getFeaturedImage } from '../utils/blogImages';
 
 const fallbackBlogs = [
   {
@@ -142,7 +143,7 @@ const Home = () => {
             <article className="group cursor-pointer overflow-hidden rounded-xl bg-white shadow-lg border border-slate-200 mb-10" onClick={() => openBlog(featured.id)}>
               <div className="aspect-[16/9] w-full overflow-hidden">
                 <img
-                  src={featured.imageUrl || fallbackBlogs[0].imageUrl}
+                  src={getFeaturedImage(featured.imageUrl) || fallbackBlogs[0].imageUrl}
                   alt={featured.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -176,7 +177,7 @@ const Home = () => {
                     onClick={() => openBlog(item.id)}
                     className="bg-white rounded-lg overflow-hidden border border-slate-200 hover:shadow-md transition-shadow cursor-pointer"
                   >
-                    <img src={item.imageUrl || fallbackBlogs[1].imageUrl} alt={item.title} className="h-48 w-full object-cover" />
+                    <img src={getFeaturedImage(item.imageUrl) || fallbackBlogs[1].imageUrl} alt={item.title} className="h-48 w-full object-cover" />
                     <div className="p-4">
                       <span className="text-[#0a2a8a] font-bold text-[10px] uppercase mb-2 block">{item.genre || 'News'}</span>
                       <h3 className="font-bold text-lg mb-2 clamp-2">{item.title}</h3>

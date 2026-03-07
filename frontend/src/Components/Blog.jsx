@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ChevronRight, BookOpen, Clock, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { getFeaturedImage } from '../utils/blogImages';
 
 const BASE_CATEGORIES = ['All', 'Politics', 'Technology', 'Business', 'Science', 'Health', 'Sports', 'Culture', 'Environment'];
 
@@ -125,9 +126,9 @@ const Blog = () => {
                     {item.genre || 'News'}
                   </span>
                 </div>
-                {item.imageUrl ? (
+                {getFeaturedImage(item.imageUrl) ? (
                   <img
-                    src={item.imageUrl}
+                    src={getFeaturedImage(item.imageUrl)}
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                   />

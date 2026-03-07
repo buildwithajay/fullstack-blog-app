@@ -21,10 +21,10 @@ const CreateBlog = () => {
   const [content, setContent] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Politics');
   const [customCategory, setCustomCategory] = useState('');
-  const [image, setImage] = useState('');
+  const [images, setImages] = useState([]);
   const [readTime, setReadTime] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
@@ -36,22 +36,17 @@ const CreateBlog = () => {
   }, [selectedCategory, customCategory]);
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result);
-      reader.readAsDataURL(file);
-    }
+    const files = Array.from(e.target.files || []);
+    setImages(files);
+    setImagePreviews(files.map((file) => URL.createObjectURL(file)));
   };
 
   const handleClick = async (e) => {
     e.preventDefault();
     setErrorMessage('');
 
-    if (!image) {
-      setErrorMessage('Featured image is required.');
+    if (!images.length) {
+      setErrorMessage('At least one image is required.');
       return;
     }
 
@@ -63,16 +58,21 @@ const CreateBlog = () => {
     setIsLoading(true);
 
     try {
-      const imageData = new FormData();
-      imageData.append('file', image);
-      imageData.append('upload_preset', 'image-store');
-      imageData.append('cloud_name', 'dkc0tn86f');
+      const uploadedImageUrls = await Promise.all(
+        images.map(async (imageFile) => {
+          const imageData = new FormData();
+          imageData.append('file', imageFile);
+          imageData.append('upload_preset', 'image-store');
+          imageData.append('cloud_name', 'dkc0tn86f');
 
-      const postImage = await fetch('https://api.cloudinary.com/v1_1/dkc0tn86f/image/upload', {
-        method: 'POST',
-        body: imageData,
-      });
-      const uploadImageUrl = await postImage.json();
+          const postImage = await fetch('https://api.cloudinary.com/v1_1/dkc0tn86f/image/upload', {
+            method: 'POST',
+            body: imageData,
+          });
+          const uploadImageUrl = await postImage.json();
+          return uploadImageUrl.secure_url;
+        })
+      );
 
       const post = await fetch('https://fullstack-blog-app-l5ph.onrender.com/blog', {
         method: 'POST',
@@ -84,7 +84,8 @@ const CreateBlog = () => {
           title,
           content,
           genre: finalCategory,
-          imageUrl: uploadImageUrl.secure_url,
+          imageUrl: uploadedImageUrls[0],
+          imageUrls: uploadedImageUrls,
           readTime: Number(readTime),
         }),
       });
@@ -234,22 +235,31 @@ const CreateBlog = () => {
           <div className="bg-white border border-slate-200 rounded-lg p-6">
             <div className="flex items-center mb-4">
               <ImageIcon className="w-5 h-5 text-[#0a2a8a] mr-2" />
-              <h2 className="text-xl font-bold text-slate-900">Featured Image</h2>
+              <h2 className="text-xl font-bold text-slate-900">Article Images</h2>
             </div>
 
-            {imagePreview && (
-              <div className="mb-4">
-                <img src={imagePreview} alt="Preview" className="w-full h-64 object-cover rounded-md border border-slate-300" />
+            {imagePreviews.length > 0 && (
+              <div className="mb-4 grid grid-cols-2 md:grid-cols-3 gap-3">
+                {imagePreviews.map((preview, index) => (
+                  <div key={`${preview}-${index}`} className="relative">
+                    <img src={preview} alt={`Preview ${index + 1}`} className="w-full h-36 object-cover rounded-md border border-slate-300" />
+                    {index === 0 && (
+                      <span className="absolute top-2 left-2 bg-[#d81224] text-white text-[10px] px-2 py-0.5 rounded uppercase font-semibold">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                ))}
               </div>
             )}
 
             <div className="border-2 border-dashed border-slate-300 hover:border-[#0a2a8a] transition-colors rounded-lg">
               <label htmlFor="image" className="flex flex-col items-center justify-center py-8 cursor-pointer">
                 <Upload className="w-12 h-12 text-slate-400 mb-2" />
-                <span className="text-sm font-medium text-slate-700">Click to upload image</span>
-                <span className="text-xs text-slate-500 mt-1">PNG, JPG, GIF up to 10MB</span>
+                <span className="text-sm font-medium text-slate-700">Click to upload one or more images</span>
+                <span className="text-xs text-slate-500 mt-1">First image will be used as featured photo</span>
               </label>
-              <input type="file" id="image" accept="image/*" required className="hidden" onChange={handleImageChange} />
+              <input type="file" id="image" accept="image/*" required multiple className="hidden" onChange={handleImageChange} />
             </div>
           </div>
 

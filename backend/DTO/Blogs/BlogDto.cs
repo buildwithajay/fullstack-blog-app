@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using backend.DTO.Account;
 using backend.DTO.Comment;
-using backend.Model;
 
 namespace backend.DTO.Blogs
 {
@@ -17,7 +14,8 @@ namespace backend.DTO.Blogs
         public int ReadTime { get; set; }
         public int Views { get; set; }
         public string? ImageUrl { get; set; } = string.Empty;
-        public UserDto? AppUser { get; set; } 
+        public List<string> ImageUrls { get; set; } = new();
+        public UserDto? AppUser { get; set; }
         public DateTime CreatedAT { get; set; } = DateTime.Now;
         public ICollection<CommentDto>? comments { get; set; }
     }

@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace backend.Model
 {
@@ -11,6 +9,7 @@ namespace backend.Model
         public string? Title { get; set; } = string.Empty;
         public string? Content { get; set; } = string.Empty;
         public string? ImageUrl { get; set; } = string.Empty;
+        public string? ImageUrls { get; set; } = string.Empty;
         public string? Genre { get; set; } = string.Empty;
         public int ReadTime { get; set; }
         public int Views { get; set; }

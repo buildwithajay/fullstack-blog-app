@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace backend.DTO.Blogs
 {
@@ -12,17 +10,20 @@ namespace backend.DTO.Blogs
         [MaxLength(60)]
         [MinLength(4)]
         public string? Title { get; set; }
+
         [Required]
         [MinLength(5)]
         public string? Content { get; set; }
-        public string? ImageUrl { get; set; }
-        [Required]
-    
-        public int ReadTime { get; set; }
-        public DateTime CreatedAT { get; set; } = DateTime.UtcNow;
-        [Required]
 
+        public string? ImageUrl { get; set; }
+        public List<string>? ImageUrls { get; set; }
+
+        [Required]
+        public int ReadTime { get; set; }
+
+        public DateTime CreatedAT { get; set; } = DateTime.UtcNow;
+
+        [Required]
         public string? Genre { get; set; }
-        
     }
 }

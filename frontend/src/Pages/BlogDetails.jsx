@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import moment from 'moment';
 import { 
   ArrowLeft, 
   Clock, 
@@ -17,6 +16,7 @@ import {
   Linkedin
 } from 'lucide-react';
 import CommentComp from '../Components/CommentComp';
+import { parseImageUrls } from '../utils/blogImages';
 
 const BlogDetails = () => {
   const [blogInfo, setBlogInfo] = useState();
@@ -25,6 +25,48 @@ const BlogDetails = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
+  const imageUrls = useMemo(() => {
+    if (Array.isArray(blogInfo?.imageUrls) && blogInfo.imageUrls.length > 0) {
+      return blogInfo.imageUrls.filter(Boolean);
+    }
+    return parseImageUrls(blogInfo?.imageUrl);
+  }, [blogInfo?.imageUrls, blogInfo?.imageUrl]);
+  const featuredImage = imageUrls[0] || '';
+  const inlineImages = imageUrls.slice(1);
+
+  const contentBlocks = useMemo(() => {
+    const rawContent = blogInfo?.content || '';
+    const paragraphs = rawContent
+      .split(/\n+/)
+      .map((line) => line.trim())
+      .filter(Boolean);
+
+    if (!paragraphs.length) return [];
+
+    const blocks = [];
+    let imageIndex = 0;
+    const interval = Math.max(1, Math.floor(paragraphs.length / (inlineImages.length + 1)));
+
+    paragraphs.forEach((paragraph, index) => {
+      blocks.push({ type: 'paragraph', value: paragraph, key: `p-${index}` });
+
+      const shouldInsertImage =
+        imageIndex < inlineImages.length &&
+        ((index + 1) % interval === 0 || index === paragraphs.length - 1);
+
+      if (shouldInsertImage) {
+        blocks.push({ type: 'image', value: inlineImages[imageIndex], key: `i-${imageIndex}` });
+        imageIndex += 1;
+      }
+    });
+
+    while (imageIndex < inlineImages.length) {
+      blocks.push({ type: 'image', value: inlineImages[imageIndex], key: `i-${imageIndex}` });
+      imageIndex += 1;
+    }
+
+    return blocks;
+  }, [blogInfo?.content, inlineImages]);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -41,7 +83,10 @@ const BlogDetails = () => {
         // Update or create Open Graph meta tags
         updateMetaTag('og:title', res.title || 'NepalNiti Article');
         updateMetaTag('og:description', res.content?.substring(0, 160) || 'Read the latest news and analysis from NepalNiti');
-        updateMetaTag('og:image', res.imageUrl || '/logo.png');
+        const allImages = Array.isArray(res.imageUrls) && res.imageUrls.length > 0
+          ? res.imageUrls.filter(Boolean)
+          : parseImageUrls(res.imageUrl);
+        updateMetaTag('og:image', allImages[0] || '/nepalniti-logo.svg');
         updateMetaTag('og:url', window.location.href);
         updateMetaTag('og:type', 'article');
         
@@ -49,7 +94,7 @@ const BlogDetails = () => {
         updateMetaTag('twitter:card', 'summary_large_image');
         updateMetaTag('twitter:title', res.title || 'NepalNiti Article');
         updateMetaTag('twitter:description', res.content?.substring(0, 160) || 'Read the latest news and analysis from NepalNiti');
-        updateMetaTag('twitter:image', res.imageUrl || '/logo.png');
+        updateMetaTag('twitter:image', allImages[0] || '/nepalniti-logo.svg');
       }
     };
     
@@ -102,7 +147,7 @@ const BlogDetails = () => {
 
   // Enhanced social sharing functions
   const shareOnFacebook = () => {
-    const url = encodeURIComponent(window.location.href);
+    const url = encodeURIComponent(`${window.location.origin}/api/share/${params.id}`);
     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
     window.open(facebookUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
   };
@@ -255,9 +300,9 @@ const BlogDetails = () => {
         </div>
 
         {/* Featured Image */}
-        {blogInfo?.imageUrl ? (
+        {featuredImage ? (
           <img 
-            src={blogInfo.imageUrl} 
+            src={featuredImage} 
             alt={blogInfo.title}
             className="w-full h-64 md:h-96 object-cover mb-8"
           />
@@ -279,11 +324,17 @@ const BlogDetails = () => {
             <div className="text-gray-800 leading-relaxed text-lg">
               {blogInfo?.content ? (
                 <div>
-                  {blogInfo.content.split('\n').map((paragraph, index) => (
-                    <p key={index} className="mb-6 text-justify">
-                      {paragraph}
-                    </p>
-                  ))}
+                  {contentBlocks.map((block) =>
+                    block.type === 'paragraph' ? (
+                      <p key={block.key} className="mb-6 text-justify">
+                        {block.value}
+                      </p>
+                    ) : (
+                      <figure key={block.key} className="mb-8">
+                        <img src={block.value} alt="Article visual" className="w-full rounded-lg border border-gray-200 object-cover max-h-[420px]" />
+                      </figure>
+                    )
+                  )}
                 </div>
               ) : (
                 <div className="space-y-6">
