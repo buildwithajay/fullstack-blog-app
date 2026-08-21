@@ -12,7 +12,7 @@ const Update = () => {
 
     useEffect(() => {
       const fetchData = async () => {
-          let req = await fetch(`http://localhost:5274/blog/${params.id}`)
+          let req = await fetch(`https://fullstack-blog-app-l5ph.onrender.com/blog/${params.id}`)
           let res = await req.json();
           setData(res)
           setIsLoading(false);
@@ -25,7 +25,7 @@ const Update = () => {
       setIsSaving(true)
 
       try {
-        let update = await fetch(`http://localhost:5274/blog/${params.id}`, 
+        let update = await fetch(`https://fullstack-blog-app-l5ph.onrender.com/blog/${params.id}`, 
         {
           method: "PUT",
           headers: {
